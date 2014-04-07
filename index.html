@@ -1,18 +1,31 @@
 <html>
   <head>
-    <title>Unbeatable tic tac toe</title>    
+    <title>Unbeatable tic tac toe</title>
+    <link href="lib/bootstrap-3.1.1-.min.css" rel="stylesheet">
+    <link href="board.css" rel="stylesheet">
+    <script type='text/javascript' src='lib/knockout-3.1.0.js'></script>    
+    <script type='text/javascript' src='boardViewModel.js'></script>
   </head>
   <body>
-    <table border="1" width="100%" height="100%">
+    <table class="table">  
       <tr>
-        <td></td><td></td><td></td>
+        <td data-bind="click: function () {select(0)}"><span data-bind="text: squares[0]"></span></td>
+        <td data-bind="click: function () {select(1)}"><span data-bind="text: squares[1]">X</span></td>
+        <td data-bind="click: function () {select(2)}"><span data-bind="text: squares[2]">X</span></td>
       </tr>
       <tr>
-        <td></td><td></td><td></td>
+        <td data-bind="click: function () {select(3)}"><span data-bind="text: squares[3]">X</span></td>
+        <td data-bind="click: function () {select(4)}"><span data-bind="text: squares[4]">X</span></td>
+        <td data-bind="click: function () {select(5)}"><span data-bind="text: squares[5]">X</span></td>
       </tr>
       <tr>
-        <td></td><td></td><td></td>
+        <td data-bind="click: function () {select(6)}"><span data-bind="text: squares[6]">X</span></td>
+        <td data-bind="click: function () {select(7)}"><span data-bind="text: squares[7]">X</span></td>
+        <td data-bind="click: function () {select(8)}"><span data-bind="text: squares[8]">X</span></td>
       </tr>
     </table>
   </body>
+   <script type='text/javascript'>
+    ko.applyBindings(new BoardViewModel());
+   </script>
 </html>
