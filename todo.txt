@@ -4,7 +4,8 @@
  -Last square -> Cpu takes previous
  - Check for already taken square
  - Show result when all squares taken
-When 3 in a row game is ended
+-When 3 in a row game is ended
+Make board initalisation easier in test
 Change cpu taking following with some logic or random.
 Behaviour to not let user make 3 Xs in a row.
 More advanced stuff.

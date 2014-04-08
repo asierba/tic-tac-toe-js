@@ -9,23 +9,23 @@
   <body>
     <table class="table">  
       <tr>
-        <td data-bind="click: function () {move(0)}"><span data-bind="text: squares[0]"></span></td>
-        <td data-bind="click: function () {move(1)}"><span data-bind="text: squares[1]">X</span></td>
-        <td data-bind="click: function () {move(2)}"><span data-bind="text: squares[2]">X</span></td>
+        <td data-bind="click: function () { move(0, 0) }"><span data-bind="text: squares[0][0]"></span></td>
+        <td data-bind="click: function () { move(1, 0) }"><span data-bind="text: squares[1][0]"></span></td>
+        <td data-bind="click: function () { move(2, 0) }"><span data-bind="text: squares[2][0]"></span></td>
       </tr>
       <tr>
-        <td data-bind="click: function () {move(3)}"><span data-bind="text: squares[3]">X</span></td>
-        <td data-bind="click: function () {move(4)}"><span data-bind="text: squares[4]">X</span></td>
-        <td data-bind="click: function () {move(5)}"><span data-bind="text: squares[5]">X</span></td>
+        <td data-bind="click: function () { move(0, 1) }"><span data-bind="text: squares[0][1]"></span></td>
+        <td data-bind="click: function () { move(1, 1) }"><span data-bind="text: squares[1][1]"></span></td>
+        <td data-bind="click: function () { move(2, 1) }"><span data-bind="text: squares[2][1]"></span></td>
       </tr>
       <tr>
-        <td data-bind="click: function () {move(6)}"><span data-bind="text: squares[6]">X</span></td>
-        <td data-bind="click: function () {move(7)}"><span data-bind="text: squares[7]">X</span></td>
-        <td data-bind="click: function () {move(8)}"><span data-bind="text: squares[8]">X</span></td>
+        <td data-bind="click: function () { move(0, 2) }"><span data-bind="text: squares[0][2]"></span></td>
+        <td data-bind="click: function () { move(1, 2) }"><span data-bind="text: squares[1][2]"></span></td>
+        <td data-bind="click: function () { move(2, 2) }"><span data-bind="text: squares[2][2]"></span></td>
       </tr>
     </table>
     <div id="result">
-      <span data-bind="text: result">
+      <span data-bind="text: result"></span>
     </div>
   </body>
    <script type='text/javascript'>

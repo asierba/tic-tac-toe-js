@@ -1,105 +1,131 @@
+/*global ko */
 function BoardViewModel() {
     'use strict';
     var self = this,
         emptyMark = '',
         userMark = 'X',
         cpuMark = 'O';
-    
-    self.squares = [];
+
+    self.squares = [[], [], []];
     self.result = ko.observable('');
 
-    function isFree(position) {
-        return self.squares[position]() === emptyMark;
-    }    
-
-    function nextAvailableSquare(currentPostion) {
-        if (!isFree(currentPostion)) {
-            currentPostion += 1;
-            return nextAvailableSquare(currentPostion);
-        }
-        return currentPostion;
+    function isFree(x, y) {
+        return self.squares[x][y]() === emptyMark;
     }
 
-    function isLastSquare(position) {
-        return position === self.squares.length - 1;
+    function nextAvailableSquare(currentPostion) {
+        if (currentPostion.y === 2 && currentPostion.x === 2) {
+            currentPostion.x = 0;
+            currentPostion.y = 0;
+        } else if (currentPostion.x === 2) {
+            currentPostion.x = 0;
+            currentPostion.y += 1;
+        } else {
+            currentPostion.x += 1;
+        }
+
+        if (isFree(currentPostion.x, currentPostion.y)) {
+            return currentPostion;
+        }
+
+        return nextAvailableSquare(currentPostion);
     }
 
     function allTaken() {
-        for (var i=0; i < 9; i++)  {
-            if(isFree(i)) {
-                return false;               
+        var i, j;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                if (isFree(i, j)) {
+                    return false;
+                }
             }
-        } 
+        }
         return true;
     }
 
-    function cpuMove(userPostion) {
-        if (allTaken()) {
-            self.result('Draw');
-            return;
-        }
-        var cpuPositon = userPostion + 1;
-        if (isLastSquare(userPostion)) {
-            cpuPositon = 0;
-        }
-        cpuPositon = nextAvailableSquare(cpuPositon);
-
-        self.squares[cpuPositon](cpuMark);
-    }
-
-    function userWins() {
-        var squares = [
-            [self.squares[0],self.squares[1],self.squares[2]],
-            [self.squares[3],self.squares[4],self.squares[5]],
-            [self.squares[6],self.squares[7],self.squares[8]]
-        ];
-
+    function wins(mark) {
+        var i, j;
         //columns
-        for (var i=0; i < 3; i++)
-            if (squares[i][0]() === userMark &&
-                squares[i][1]() === userMark &&
-                squares[i][2]() === userMark)
+        for (i = 0; i < 3; i++) {
+            if (self.squares[i][0]() === mark &&
+                    self.squares[i][1]() === mark &&
+                    self.squares[i][2]() === mark) {
                 return true;
-        //rows
-        for (var j=0; j < 3; j++)
-            if (squares[0][j]() === userMark &&
-                squares[1][j]() === userMark &&
-                squares[2][j]() === userMark)
-                return true;
-        //diagonals
-        if (squares[0][0]() === userMark &&
-                squares[1][1]() === userMark &&
-                squares[2][2]() === userMark)
-                return true;    
+            }
+        }
 
-        if (squares[2][0]() === userMark &&
-                squares[1][1]() === userMark &&
-                squares[0][2]() === userMark)
+        //rows
+        for (j = 0; j < 3; j++) {
+            if (self.squares[0][j]() === mark &&
+                    self.squares[1][j]() === mark &&
+                    self.squares[2][j]() === mark) {
                 return true;
-        
+            }
+        }
+
+        //diagonals
+        if (self.squares[0][0]() === mark &&
+                self.squares[1][1]() === mark &&
+                self.squares[2][2]() === mark) {
+            return true;
+        }
+
+        if (self.squares[2][0]() === mark &&
+                self.squares[1][1]() === mark &&
+                self.squares[0][2]() === mark) {
+            return true;
+        }
 
         return false;
     }
 
-    self.move = function (position) {
-        if (!isFree(position)) {
+    function cpuWins() {
+        return wins(cpuMark);
+    }
+
+    function cpuMove(x, y) {
+        var cpuPositon = { x: x, y: y };
+
+        if (allTaken()) {
+            self.result('Draw');
             return;
         }
-        self.squares[position](userMark);
 
-        if(userWins()) {
+        cpuPositon = nextAvailableSquare(cpuPositon);
+
+        self.squares[cpuPositon.x][cpuPositon.y](cpuMark);
+
+        if (cpuWins()) {
+            self.result('You lose!');
+        }
+    }
+
+    function userWins() {
+        return wins(userMark);
+    }
+
+    self.move = function (x, y) {
+        if (!isFree(x, y)) {
+            return;
+        }
+        self.squares[x][y](userMark);
+
+        if (userWins()) {
             self.result('You win!');
             return;
         }
 
-        cpuMove(position);
+        cpuMove(x, y);
     };
 
-    function initialiseSquares() {
-        for (var i=0; i < 9; i++)  {
-            self.squares.push(ko.observable(emptyMark));
+    function initialiseBoard() {
+        var i, j;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                self.squares[i].push(ko.observable(emptyMark));
+            }
         }
     }
 
-    initialiseSquares();
+    initialiseBoard();
 }
