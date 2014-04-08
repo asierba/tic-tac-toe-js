@@ -1,9 +1,9 @@
 -Main UI
 -Behaviour to draw X when user clicks in empty spaces.
-Behaviour to draw 0 for the CPU in empty space after user has clicked.
+-Behaviour to draw 0 for the CPU in empty space after user has clicked.
  -Last square -> Cpu takes previous
  - Check for already taken square
- Show result when all squares taken
+ - Show result when all squares taken
 When 3 in a row game is ended
 Change cpu taking following with some logic or random.
 Behaviour to not let user make 3 Xs in a row.

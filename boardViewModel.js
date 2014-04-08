@@ -6,6 +6,7 @@ function BoardViewModel() {
         cpuMark = 'O';
     
     self.squares = [];
+    self.result = ko.observable('');
 
     function isFree(position) {
         return self.squares[position]() === emptyMark;
@@ -34,6 +35,7 @@ function BoardViewModel() {
 
     function cpuMove(userPostion) {
         if(allTaken()) {
+            self.result('Draw');
             return;
         }
         var cpuPositon = userPostion + 1;

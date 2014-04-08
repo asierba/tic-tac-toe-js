@@ -154,6 +154,6 @@ describe('when no more free spaces to be taken by cpu', function() {
     });  
 
     it('game should end', function() {
-        // empty verification to check in the browser that we dont get error
+        expect(board.result()).toBe('Draw');
     });
 });

@@ -24,6 +24,9 @@
         <td data-bind="click: function () {move(8)}"><span data-bind="text: squares[8]">X</span></td>
       </tr>
     </table>
+    <div id="result">
+      <span data-bind="text: result">
+    </div>
   </body>
    <script type='text/javascript'>
     ko.applyBindings(new BoardViewModel());
