@@ -10,6 +10,7 @@ describe('when loading the board', function() {
           expect(board.squares[i]()).toBe('');
         };
     });
+    
 
     describe('and user clicks in a square', function() {
         beforeEach(function() { 
@@ -22,6 +23,10 @@ describe('when loading the board', function() {
 
         it('following square should be marked with an O', function() {
             expect(board.squares[4]()).toBe('O');
+        });
+
+        it('game is not ended yet', function() {
+            expect(board.result()).toBe('');
         });
     }); 
 
@@ -135,7 +140,6 @@ describe('when user clicks in square next to four taken squares', function() {
     });
 });
 
-
 describe('when no more free spaces to be taken by cpu', function() {
     var board;
     
@@ -144,16 +148,62 @@ describe('when no more free spaces to be taken by cpu', function() {
         board.squares[0]('X');
         board.squares[1]('O');
         board.squares[2]('X');
-        board.squares[3]('O');
-        board.squares[4]('X');
-        board.squares[5]('O');
-        board.squares[6]('X');
-        board.squares[7]('O');        
+        board.squares[3]('X');
+        board.squares[4]('O');
+        board.squares[5]('X');        
+        board.squares[6]('O');        
+        board.squares[8]('O');
      
-        board.move(8);
+        board.move(7);
     });  
 
-    it('game should end', function() {
+    it('game should end with draw', function() {
         expect(board.result()).toBe('Draw');
     });
 });
+
+describe('when user makes three in a row', function() {
+    var board;
+    
+    beforeEach(function() { 
+        board = new BoardViewModel();
+        board.squares[1]('X');
+        board.squares[2]('O');
+        board.squares[4]('X');
+        board.squares[5]('O');
+     
+        board.move(7);
+    });
+
+    it('user should win', function() {
+        expect(board.result()).toBe('You win!');
+    });
+
+    it('cpu should not make move', function() {
+        expect(board.squares[8]()).not.toBe('O');
+    });
+});
+
+describe('when user makes three in a row', function() {
+    var board;
+    
+    beforeEach(function() { 
+        board = new BoardViewModel();
+        board.squares[0]('X');
+        board.squares[1]('O');
+        board.squares[3]('X');
+        board.squares[4]('O');
+     
+        board.move(6);
+    });
+
+    it('user should win', function() {
+        expect(board.result()).toBe('You win!');
+    });
+
+    it('cpu should not make move', function() {
+        expect(board.squares[7]()).not.toBe('O');
+    });
+});
+
+//when cpu makes 3
