@@ -1,4 +1,14 @@
 /*global describe, beforeEach, BoardViewModel, it, expect */
+
+BoardViewModel.prototype.initialseBoard = function (squares) {
+    var x, y;
+    for (x = 0; x < 3; x++) {
+        for (y = 0; y < 3; y++) {
+           this.squares[x][y](squares[y][x]);
+        }
+    }
+};
+
 describe('when loading the board', function () {
     var board;
 
@@ -53,6 +63,10 @@ describe('when user clicks in a non empty square', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
+        board.initialseBoard([
+            ['' ,'' ,''],
+            ['' ,'' ,''],
+            ['' ,'' ,''],]);
         board.squares[1][1]('O');
 
         board.move(1, 1);
@@ -72,8 +86,10 @@ describe('when user clicks in square next to a non empty square', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[1][1]('X');
-        board.squares[2][2]('O');
+        board.initialseBoard([
+            ['' ,'' ,''],
+            ['' ,'X',''],
+            ['' ,'' ,'O'],]);
 
         board.move(0, 1);
     });
@@ -96,8 +112,10 @@ describe('when user clicks in square next to two taken squares', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[1][1]('X');
-        board.squares[2][1]('O');
+        board.initialseBoard([
+            ['' ,'' ,''],
+            ['' ,'X','O'],
+            ['' ,'' ,''],]);
 
         board.move(0, 1);
     });
@@ -120,10 +138,10 @@ describe('when user clicks in square next to four taken squares', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[0][1]('X');
-        board.squares[1][1]('O');
-        board.squares[2][1]('X');
-        board.squares[0][2]('O');
+        board.initialseBoard([
+            ['' ,'' ,''],
+            ['X','O' ,'X'],
+            ['O' ,'' ,''],]);
 
         board.move(2, 0);
     });
@@ -146,14 +164,10 @@ describe('when no more free spaces to be taken by cpu', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[0][0]('X');
-        board.squares[1][0]('O');
-        board.squares[2][0]('X');
-        board.squares[0][1]('X');
-        board.squares[1][1]('O');
-        board.squares[2][1]('X');
-        board.squares[0][2]('O');
-        board.squares[2][2]('O');
+        board.initialseBoard([
+            ['X' ,'O' ,'X'],
+            ['X' ,'O' ,'X'],
+            ['O' ,'' ,'O'],]);
 
         board.move(1, 2);
     });
@@ -168,10 +182,11 @@ describe('when user makes three in a row', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[1][0]('X');
-        board.squares[2][0]('O');
-        board.squares[1][1]('X');
-        board.squares[2][1]('O');
+
+        board.initialseBoard([
+            ['' ,'X' ,'O'],
+            ['' ,'X' ,'O'],
+            ['' ,'' ,''],]);
 
         board.move(1, 2);
     });
@@ -190,15 +205,11 @@ describe('when cpu makes three in a row', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.squares[0][0]('X');
-        board.squares[1][0]('');
-        //board.squares[2][0]('');
-        board.squares[0][1]('');
-        board.squares[1][1]('O');
-        board.squares[2][1]('O');
-        board.squares[0][2]('');
-        board.squares[1][2]('X');
-        board.squares[2][2]('');
+        
+        board.initialseBoard([
+                ['X','' ,''],
+                ['' ,'O','O'],
+                ['' ,'X',''],]);        
 
         board.move(2, 0);
     });
