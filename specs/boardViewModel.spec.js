@@ -1,6 +1,6 @@
 /*global describe, beforeEach, BoardViewModel, it, expect */
 
-BoardViewModel.prototype.initialseBoard = function (squares) {
+BoardViewModel.prototype.setup = function (squares) {
     var x, y;
     for (x = 0; x < 3; x++) {
         for (y = 0; y < 3; y++) {
@@ -63,10 +63,10 @@ describe('when user clicks in a non empty square', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.initialseBoard([
+        board.setup([
             ['' ,'' ,''],
             ['' ,'' ,''],
-            ['' ,'' ,''],]);
+            ['' ,'' ,'']]);
         board.squares[1][1]('O');
 
         board.move(1, 1);
@@ -86,10 +86,10 @@ describe('when user clicks in square next to a non empty square', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.initialseBoard([
+        board.setup([
             ['' ,'' ,''],
             ['' ,'X',''],
-            ['' ,'' ,'O'],]);
+            ['' ,'' ,'O']]);
 
         board.move(0, 1);
     });
@@ -112,10 +112,10 @@ describe('when user clicks in square next to two taken squares', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.initialseBoard([
+        board.setup([
             ['' ,'' ,''],
             ['' ,'X','O'],
-            ['' ,'' ,''],]);
+            ['' ,'' ,'']]);
 
         board.move(0, 1);
     });
@@ -138,10 +138,10 @@ describe('when user clicks in square next to four taken squares', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.initialseBoard([
+        board.setup([
             ['' ,'' ,''],
-            ['X','O' ,'X'],
-            ['O' ,'' ,''],]);
+            ['X','X' ,'O'],
+            ['O' ,'' ,'']]);
 
         board.move(2, 0);
     });
@@ -164,10 +164,10 @@ describe('when no more free spaces to be taken by cpu', function () {
 
     beforeEach(function () {
         board = new BoardViewModel();
-        board.initialseBoard([
+        board.setup([
             ['X' ,'O' ,'X'],
             ['X' ,'O' ,'X'],
-            ['O' ,'' ,'O'],]);
+            ['O' ,'' ,'O']]);
 
         board.move(1, 2);
     });
@@ -183,10 +183,10 @@ describe('when user makes three in a row', function () {
     beforeEach(function () {
         board = new BoardViewModel();
 
-        board.initialseBoard([
+        board.setup([
             ['' ,'X' ,'O'],
             ['' ,'X' ,'O'],
-            ['' ,'' ,''],]);
+            ['' ,'' ,'']]);
 
         board.move(1, 2);
     });
@@ -206,10 +206,10 @@ describe('when cpu makes three in a row', function () {
     beforeEach(function () {
         board = new BoardViewModel();
         
-        board.initialseBoard([
+        board.setup([
                 ['X','' ,''],
                 ['' ,'O','O'],
-                ['' ,'X',''],]);        
+                ['' ,'X','']]);        
 
         board.move(2, 0);
     });
@@ -218,3 +218,156 @@ describe('when cpu makes three in a row', function () {
         expect(board.result()).toBe('You lose!');
     });
 });
+
+describe('when user makes two in a column', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['X','O',''],
+                ['' ,'' ,''],
+                ['' ,'' ,'']]);        
+
+        board.move(0, 1);
+    });
+
+    it('cpu should take next in column to avoid user winning', function () {
+        expect(board.squares[0][2]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a column v2', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['', 'X',''],
+                ['' ,'' ,''],
+                ['' ,'' ,'']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take next square to avoid user winning', function () {
+        expect(board.squares[1][2]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a column v3', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['', '', 'X'],
+                ['' ,'' ,''],
+                ['' ,'' ,'']]);
+
+        board.move(2, 1);
+    });
+
+    it('cpu should take next square to avoid user winning', function () {
+        expect(board.squares[2][2]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a column v4', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['', '', ''],
+                ['' ,'' ,'X'],
+                ['' ,'' ,'']]);
+
+        board.move(2, 2);
+    });
+
+    it('cpu should take next square to avoid user winning', function () {
+        expect(board.squares[2][0]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a column v5', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['', '', ''],
+                ['X' ,'' ,''],
+                ['' ,'' ,'']]);
+
+        board.move(0, 2);
+    });
+
+    it('cpu should take next square to avoid user winning', function () {
+        expect(board.squares[0][0]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a row', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['' ,'' ,''],
+                ['' ,'','X'],
+                ['O' ,'','']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take next in row to avoid user winning', function () {
+        expect(board.squares[0][1]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a diagonal', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['' ,'','X'],
+                ['O','',''],
+                ['' ,'','']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take next in diagonal to avoid user winning', function () {
+        expect(board.squares[0][2]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a diagonal v2', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['X','O',''],
+                ['','',''],
+                ['' ,'','']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take next in diagonal to avoid user winning', function () {
+        expect(board.squares[2][2]()).toBe('O');
+    });
+});
+
