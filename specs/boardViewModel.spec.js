@@ -27,7 +27,7 @@ describe('when loading the board', function () {
 
     describe('and user clicks in a square', function () {
         beforeEach(function () {
-            board.move(1, 0);
+            board.move({x: 1, y: 0});
         });
 
         it('should be marked with an X', function () {
@@ -51,7 +51,7 @@ describe('when user clicks in a non empty square', function () {
             ['' ,'' ,'']]);
         board.squares[1][1]('O');
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('should not take that square', function () {
@@ -73,7 +73,7 @@ describe('when user clicks in square next to a non empty square', function () {
             ['' ,'X',''],
             ['' ,'' ,'O']]);
 
-        board.move(0, 1);
+        board.move({x: 0, y: 1});
     });
 
     it('should take that square', function () {
@@ -99,7 +99,7 @@ describe('when user clicks in square next to two taken squares', function () {
             ['' ,'X','O'],
             ['' ,'' ,'']]);
 
-        board.move(0, 1);
+        board.move({x: 0, y: 1});
     });
 
     it('should take that square', function () {
@@ -121,7 +121,7 @@ describe('when user clicks in square next to four taken squares', function () {
             ['X','X' ,'O'],
             ['O' ,'' ,'']]);
 
-        board.move(2, 0);
+        board.move({x: 2, y: 0});
     });
 
     it('should take that square', function () {
@@ -143,7 +143,7 @@ describe('when no more free spaces to be taken by cpu', function () {
             ['X' ,'O' ,'X'],
             ['O' ,'' ,'O']]);
 
-        board.move(1, 2);
+        board.move({x: 1, y: 2});
     });
 
     it('game should end with draw', function () {
@@ -162,7 +162,7 @@ describe('when user makes three in a row', function () {
             ['' ,'X' ,'O'],
             ['' ,'' ,'']]);
 
-        board.move(1, 2);
+        board.move({x: 1, y: 2});
     });
 
     it('user should win', function () {
@@ -185,7 +185,7 @@ describe('when cpu makes three in a row', function () {
                 ['' ,'O','O'],
                 ['' ,'X','']]);        
 
-        board.move(2, 0);
+        board.move({x: 2, y: 0});
     });
 
     it('cpu should win', function () {
@@ -204,7 +204,7 @@ describe('when user makes two in a column', function () {
                 ['' ,'' ,''],
                 ['' ,'' ,'']]);        
 
-        board.move(0, 1);
+        board.move({x: 0, y: 1});
     });
 
     it('cpu should take next in column to avoid user winning', function () {
@@ -223,7 +223,7 @@ describe('when user makes two in a column v2', function () {
                 ['' ,'' ,''],
                 ['' ,'' ,'']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -242,7 +242,7 @@ describe('when user makes two in a column v3', function () {
                 ['' ,'' ,''],
                 ['' ,'' ,'']]);
 
-        board.move(2, 1);
+        board.move({x: 2, y: 1});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -261,7 +261,7 @@ describe('when user makes two in a column v4', function () {
                 ['' ,'' ,'X'],
                 ['' ,'' ,'']]);
 
-        board.move(2, 2);
+        board.move({x: 2, y: 2});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -280,7 +280,7 @@ describe('when user makes two in a column v5', function () {
                 ['X' ,'' ,''],
                 ['' ,'' ,'']]);
 
-        board.move(0, 2);
+        board.move({x: 0, y: 2});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -299,7 +299,7 @@ describe('when user makes two in a column in corners', function () {
                 ['' ,'' ,''],
                 ['' ,'' ,'']]);
 
-        board.move(0, 2);
+        board.move({x: 0, y: 2});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -318,7 +318,7 @@ describe('when user makes two in a row', function () {
                 ['' ,'','X'],
                 ['O' ,'','']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take next in row to avoid user winning', function () {
@@ -337,7 +337,7 @@ describe('when user makes two in a row in corners', function () {
                 ['' ,'' ,''],
                 ['X','','']]);
 
-        board.move(2, 2);
+        board.move({x: 2, y: 2});
     });
 
     it('cpu should take next in row to avoid user winning', function () {
@@ -356,7 +356,7 @@ describe('when user makes two in a diagonal', function () {
                 ['O','',''],
                 ['' ,'','']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take next in diagonal to avoid user winning', function () {
@@ -375,7 +375,7 @@ describe('when user makes two in a diagonal v2', function () {
                 ['','',''],
                 ['' ,'','']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take next in diagonal to avoid user winning', function () {
@@ -389,7 +389,7 @@ describe('when middle square free', function () {
     beforeEach(function () {
         board = new BoardViewModel();
 
-        board.move(2, 2);
+        board.move({x: 2, y: 2});
     });
 
     it('cpu should take it', function () {
@@ -403,7 +403,7 @@ describe('when middle square is not free', function () {
     beforeEach(function () {
         board = new BoardViewModel();
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take one in the corner', function () {
@@ -422,7 +422,7 @@ describe('when middle and first corner corner are not free', function () {
                 ['' ,'O',''],
                 ['' ,'' ,'']]);
 
-        board.move(2, 2);
+        board.move({x: 2, y: 2});
     });
 
     it('cpu should take one in the next corner', function () {
@@ -441,7 +441,7 @@ describe('when cpu has chance to make three in diagonal', function () {
                 ['' ,'O',''],
                 ['' ,'' ,'X']]);
 
-        board.move(1, 0);
+        board.move({x: 1, y: 0});
     });
 
     it('cpu should take make three in diagonal', function () {
@@ -464,7 +464,7 @@ describe('when cpu has chance to make three in a row', function () {
                 ['' ,'' ,'X'],
                 ['' ,'' ,'X']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take make three in a row', function () {
@@ -487,7 +487,7 @@ describe('when cpu has chance to make three in a column', function () {
                 ['X','' ,'O'],
                 ['X' ,'' ,'']]);
 
-        board.move(1, 1);
+        board.move({x: 1, y: 1});
     });
 
     it('cpu should take make three in a row', function () {
