@@ -391,3 +391,72 @@ describe('when middle and first corner corner are not free', function () {
         expect(board.squares[2][0]()).toBe('O');
     });
 });
+
+describe('when cpu has chance to make three in diagonal', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.setup([
+                ['X','' ,'O'],
+                ['' ,'O',''],
+                ['' ,'' ,'X']]);
+
+        board.move(1, 0);
+    });
+
+    it('cpu should take make three in diagonal', function () {
+        expect(board.squares[0][2]()).toBe('O');
+    });
+
+    it('cpu wins', function () {
+        expect(board.result()).toBe('You lose!');
+    });
+});
+
+describe('when cpu has chance to make three in a row', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.setup([
+                ['','O' ,'O'],
+                ['' ,'' ,'X'],
+                ['' ,'' ,'X']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take make three in a row', function () {
+        expect(board.squares[0][0]()).toBe('O');
+    });
+
+    it('cpu wins', function () {
+        expect(board.result()).toBe('You lose!');
+    });
+});
+
+describe('when cpu has chance to make three in a column', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.setup([
+                ['' ,'' ,'O'],
+                ['X','' ,'O'],
+                ['X' ,'' ,'']]);
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take make three in a row', function () {
+        expect(board.squares[2][2]()).toBe('O');
+    });
+
+    it('cpu wins', function () {
+        expect(board.result()).toBe('You lose!');
+    });
+});

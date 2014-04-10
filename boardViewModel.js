@@ -1,5 +1,4 @@
 /*global ko */
-
 function BoardViewModel() {
     'use strict';
     var self = this,
@@ -28,11 +27,11 @@ function BoardViewModel() {
         return currentPostion;
     }
 
-    function nextBest(currentPostion) {
+    function specialPosition(currentPostion) {
         var middleSquare = {x:1,y:1},
             firstCorner = {x:0,y:0},
             secondCorner = {x:2,y:0};
-            
+
         if (isFree(middleSquare)) {
             return middleSquare;
         }
@@ -45,7 +44,13 @@ function BoardViewModel() {
             return secondCorner;
         }
 
+        return currentPostion;
+    }
+
+    function nextBest(currentPostion) {
         currentPostion = followingPosition(currentPostion);
+
+        currentPostion = specialPosition(currentPostion);
 
         if(isFree(currentPostion)) {
             return currentPostion;
@@ -54,10 +59,36 @@ function BoardViewModel() {
         return nextBest(currentPostion);
     }
 
-    function nextMove(currentPostion) {
-        var x, y;
-        
+    function cloneBoard(squares) {
+        var newSquares = [[], [], []];
+        var i, j;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                newSquares[i].push(ko.observable(squares[i][j]()));
+            }
+        }
+
+        return newSquares;
+    }
+
+    function emptySquares() {
+        var i, j, 
+            squares = [];
+
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 3; j++) {
+                if (isFree({x:i, y:j})) {
+                    squares.push({x:i, y:j});
+                }
+            }
+        }
+
+        return squares;
+    }
+
+    function stopUserWining() {
         // todo refactor this whole method to smaller ones
+        var x, y;
 
         //columns //
         // two top in columns
@@ -120,28 +151,59 @@ function BoardViewModel() {
             isFree({ x: 2, y: 0})) {
             return { x: 2, y: 0};
         }
+    }
+
+    function cpuWinningPosition() {
+        var i,
+            possibleMoves = emptySquares();
+
+        for (i = 0; i < possibleMoves.length; i++) {
+            var possibleSquares = cloneBoard(self.squares);
+            possibleSquares[possibleMoves[i].x][possibleMoves[i].y](cpu);
+
+            if (threeInline(cpu, possibleSquares)) {
+                return possibleMoves[i];
+            }
+        }
+    }
+
+    function nextMove(currentPostion) {
+        var winningPosition,
+            stopWinningPositon;
+
+        winningPosition = cpuWinningPosition();
+        if(winningPosition) {
+            return winningPosition;
+        }
+
+        stopWinningPositon = stopUserWining();
+        if(stopWinningPositon) {
+            return stopUserWining();
+        }
 
         return nextBest(currentPostion);
     }
 
-    function threeInAColumn(player) {
-        var i;
+    function threeInAColumn(player, squares) {
+        var i,
+            squares = squares || self.squares;
         for (i = 0; i < 3; i++) {
-            if (self.squares[i][0]() === player &&
-                    self.squares[i][1]() === player &&
-                    self.squares[i][2]() === player) {
+            if (squares[i][0]() === player &&
+                    squares[i][1]() === player &&
+                    squares[i][2]() === player) {
                 return true;
             }
         }
         return false;
     }
 
-    function threeInARow(player) {
-        var i;
+    function threeInARow(player, squares) {
+        var i,
+            squares = squares || self.squares;
         for (i = 0; i < 3; i++) {
-            if (self.squares[0][i]() === player &&
-                    self.squares[1][i]() === player &&
-                    self.squares[2][i]() === player) {
+            if (squares[0][i]() === player &&
+                    squares[1][i]() === player &&
+                    squares[2][i]() === player) {
                 return true;
             }
         }
@@ -149,41 +211,35 @@ function BoardViewModel() {
         return false;
     }
 
-    function threeInDiagonal(player) {
-        if ((self.squares[0][0]() === player &&
-                self.squares[1][1]() === player &&
-                self.squares[2][2]() === player) 
+    function threeInDiagonal(player, squares) {
+        var squares = squares || self.squares;
+        if ((squares[0][0]() === player &&
+                squares[1][1]() === player &&
+                squares[2][2]() === player) 
             ||
-            (self.squares[2][0]() === player &&
-                self.squares[1][1]() === player &&
-                self.squares[0][2]() === player)) {
+            (squares[2][0]() === player &&
+                squares[1][1]() === player &&
+                squares[0][2]() === player)) {
             return true;
         }
 
         return false;
     }
 
-    function threeInline(player) {
-        return threeInAColumn(player) ||
-                threeInARow(player) ||
-                threeInDiagonal(player);
+    function threeInline(player, squares) {
+        return threeInAColumn(player, squares) ||
+                threeInARow(player, squares) ||
+                threeInDiagonal(player, squares);
     }
 
     function isBoardFull() {
-        var i, j;
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
-                if (isFree({x:i, y:j})) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return emptySquares().length == 0;
     }
 
     self.move = function (x, y) {
         var userPosition = {x:x, y:y},
             cpuPosition;
+
         if (!isFree(userPosition)) {
             return;
         }
