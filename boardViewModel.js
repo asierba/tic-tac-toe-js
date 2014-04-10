@@ -42,53 +42,7 @@ function BoardViewModel() {
             return secondCorner;
 
         return emptySquares()[0];
-    }    
-
-    function next(index, offset) {
-        var offset = offset || 1;
-        return (index + offset) % 3;
-    }
-
-    function stopUserFromWining() {
-        var x, y, moveTo;
-
-        //columns //       
-        for (x = 0; x < 3; x++) {     
-            for (y = 0; y < 3; y++) {
-                moveTo = { x: x, y: next(y, 2)};
-                if(self.squares[x][y]() === user &&
-                    self.squares[x][next(y)]() === user &&
-                    isFree(moveTo))
-                    return moveTo;
-            }
-        }
-
-        // rows //
-        for (y = 0; y < 3; y++) {
-            for (x = 0; x < 3; x++) {
-                moveTo = { x: next(x, 2), y: y};
-                if(self.squares[x][y]() === user &&
-                    self.squares[next(x)][y]() === user && 
-                    isFree(moveTo))
-                    return moveTo;
-            }
-        }
-
-        // diagonals //
-        for (x = 0; x < 3; x++) {
-            moveTo = { x: next(x, 2), y: next(x, 2)};
-            if(self.squares[x][x]() === user &&                
-                self.squares[next(x)][next(x)]() === user && 
-                isFree(moveTo))
-                return moveTo;
-        }       
-        for (x = 0; x < 3; x++) {
-            if(self.squares[2][x]() === user &&
-                self.squares[1][next(x)]() === user && 
-                isFree({ x: 0, y: next(x, 2)}))
-                return { x: 0, y: next(x, 2)};
-        }
-    }
+    }  
 
     function cloneBoard(squares) {
         var i, j,
@@ -102,29 +56,29 @@ function BoardViewModel() {
         return newSquares;
     }
 
-    function findWinForCpu() {
+    function findWin(player) {
         var i,
             possibleBoard,
             possibleMoves = emptySquares();
 
         for (i = 0; i < possibleMoves.length; i++) {
             possibleBoard = cloneBoard(self.squares);
-            possibleBoard[possibleMoves[i].x][possibleMoves[i].y](cpu);
+            possibleBoard[possibleMoves[i].x][possibleMoves[i].y](player);
 
-            if (threeInline(cpu, possibleBoard))
+            if (threeInline(player, possibleBoard))
                 return possibleMoves[i];
         }
     }
 
     function nextMove() {
         var winningPosition,
-            notLosingPosition;
+            blockUserPosition;
 
-        if(winningPosition = findWinForCpu())
+        if(winningPosition = findWin(cpu))
             return winningPosition;
 
-        if(notLosingPosition = stopUserFromWining())
-            return stopUserFromWining();
+        if(blockUserPosition = findWin(user))
+            return blockUserPosition;
 
         return nextBest();
     }
