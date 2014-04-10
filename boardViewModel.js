@@ -14,7 +14,7 @@ function BoardViewModel() {
         return self.squares[positon.x][positon.y]() === empty;
     }
 
-    function nextAvailable(currentPostion) {
+    function followingPosition(currentPostion) {
         if (currentPostion.y === 2 && currentPostion.x === 2) {
             currentPostion.x = 0;
             currentPostion.y = 0;
@@ -24,16 +24,41 @@ function BoardViewModel() {
         } else {
             currentPostion.x += 1;
         }
+
+        return currentPostion;
+    }
+
+    function nextBest(currentPostion) {
+        var middleSquare = {x:1,y:1},
+            firstCorner = {x:0,y:0},
+            secondCorner = {x:2,y:0};
+            
+        if (isFree(middleSquare)) {
+            return middleSquare;
+        }
+
+        if (isFree(firstCorner)) {
+            return firstCorner;
+        }
+
+        if (isFree(secondCorner)) {
+            return secondCorner;
+        }
+
+        currentPostion = followingPosition(currentPostion);
+
         if(isFree(currentPostion)) {
             return currentPostion;
         }
 
-        return nextAvailable(currentPostion);
+        return nextBest(currentPostion);
     }
 
     function nextMove(currentPostion) {
         var x, y;
         
+        // todo refactor this whole method to smaller ones
+
         //columns //
         // two top in columns
         for (x = 0; x < 3; x++) {
@@ -96,7 +121,7 @@ function BoardViewModel() {
             return { x: 2, y: 0};
         }
 
-        return nextAvailable(currentPostion);
+        return nextBest(currentPostion);
     }
 
     function threeInAColumn(player) {

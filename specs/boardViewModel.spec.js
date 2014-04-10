@@ -34,26 +34,8 @@ describe('when loading the board', function () {
             expect(board.squares[1][0]()).toBe('X');
         });
 
-        it('following square should be marked with an O', function () {
-            expect(board.squares[2][0]()).toBe('O');
-        });
-
         it('game is not ended yet', function () {
             expect(board.result()).toBe('');
-        });
-    });
-
-    describe('and user clicks in the last square of the board', function () {
-        beforeEach(function () {
-            board.move(2, 2);
-        });
-
-        it('should be marked with an X', function () {
-            expect(board.squares[2][2]()).toBe('X');
-        });
-
-        it('first square should be marked with an O', function () {
-            expect(board.squares[0][0]()).toBe('O');
         });
     });
 });
@@ -127,10 +109,6 @@ describe('when user clicks in square next to two taken squares', function () {
     it('cpu should not take already taken square', function () {
         expect(board.squares[1][1]()).not.toBe('O');
     });
-
-    it('cpu should take the next available', function () {
-        expect(board.squares[0][2]()).toBe('O');
-    });
 });
 
 describe('when user clicks in square next to four taken squares', function () {
@@ -152,10 +130,6 @@ describe('when user clicks in square next to four taken squares', function () {
 
     it('cpu should not take already taken square', function () {
         expect(board.squares[0][1]()).not.toBe('O');
-    });
-
-    it('cpu should take the next available', function () {
-        expect(board.squares[1][2]()).toBe('O');
     });
 });
 
@@ -371,3 +345,49 @@ describe('when user makes two in a diagonal v2', function () {
     });
 });
 
+describe('when middle square free', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.move(2, 2);
+    });
+
+    it('cpu should take it', function () {
+        expect(board.squares[1][1]()).toBe('O');
+    });    
+});
+
+describe('when middle square is not free', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.move(1, 1);
+    });
+
+    it('cpu should take one in the corner', function () {
+        expect(board.squares[0][0]()).toBe('O');
+    });
+});
+
+describe('when middle and first corner corner are not free', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+
+        board.setup([
+                ['X','' ,''],
+                ['' ,'O',''],
+                ['' ,'' ,'']]);
+
+        board.move(2, 2);
+    });
+
+    it('cpu should take one in the next corner', function () {
+        expect(board.squares[2][0]()).toBe('O');
+    });
+});

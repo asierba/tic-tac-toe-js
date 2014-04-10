@@ -7,6 +7,6 @@
 -When 3 in a row game is ended
 -Make board initalisation easier in test
 -Behaviour to not let user make 3 Xs in a row.
-Make cpu to take middle square or corners.
+-Make cpu to take middle square or corners.
 More advanced stuff.
 -Add style - bootstrap/
