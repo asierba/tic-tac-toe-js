@@ -99,7 +99,6 @@ function BoardViewModel() {
                 return { x: x, y: 2};
             }
         }
-
         // two bottom in columns
         for (x = 0; x < 3; x++) {
             if(self.squares[x][1]() === user &&
@@ -108,7 +107,14 @@ function BoardViewModel() {
                 return { x: x, y: 0};
             }
         }
-
+        // edges in columns
+        for (x = 0; x < 3; x++) {
+            if(self.squares[x][0]() === user &&
+                self.squares[x][2]() === user &&
+                isFree({ x: x, y: 1})) {
+                return { x: x, y: 1};
+            }
+        }
 
         // rows //
         // two left columns
@@ -119,13 +125,20 @@ function BoardViewModel() {
                     return { x: 2, y: y};
                 }
         }
-
         // two right columns
         for (y = 0; y < 3; y++) {
             if(self.squares[1][y]() === user &&
                     self.squares[2][y]() === user && 
                     isFree({ x: 0, y: y})) {
                     return { x: 0, y: y};
+                }
+        }
+        // edges in columns
+        for (y = 0; y < 3; y++) {
+            if(self.squares[0][y]() === user &&
+                    self.squares[2][y]() === user && 
+                    isFree({ x: 1, y: y})) {
+                    return { x: 1, y: y};
                 }
         }
 

@@ -288,6 +288,25 @@ describe('when user makes two in a column v5', function () {
     });
 });
 
+describe('when user makes two in a column in corners', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['X', '', ''],
+                ['' ,'' ,''],
+                ['' ,'' ,'']]);
+
+        board.move(0, 2);
+    });
+
+    it('cpu should take next square to avoid user winning', function () {
+        expect(board.squares[0][1]()).toBe('O');
+    });
+});
+
 describe('when user makes two in a row', function () {
     var board;
 
@@ -304,6 +323,25 @@ describe('when user makes two in a row', function () {
 
     it('cpu should take next in row to avoid user winning', function () {
         expect(board.squares[0][1]()).toBe('O');
+    });
+});
+
+describe('when user makes two in a row in corners', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new BoardViewModel();
+        
+        board.setup([
+                ['O','' ,''],
+                ['' ,'' ,''],
+                ['X','','']]);
+
+        board.move(2, 2);
+    });
+
+    it('cpu should take next in row to avoid user winning', function () {
+        expect(board.squares[1][2]()).toBe('O');
     });
 });
 
