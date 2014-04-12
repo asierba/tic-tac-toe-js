@@ -2,8 +2,8 @@
 function MainViewModel() {
     'use strict';
     var self = this,
-        user = 'X',
-        cpu = 'O',
+        USER = 'X',
+        CPU = 'O',
         notifier = ko.observable(), // used just to get the board refreshed in the UI
         board = new Board();
 
@@ -14,48 +14,68 @@ function MainViewModel() {
         return board.squares;
     });
 
-    function nextBest() {
-        var middleSquare = {x:1,y:1},
-            firstCorner = {x:0,y:0},
-            secondCorner = {x:2,y:0};
-
-        if (board.hasFree(middleSquare))
-            return middleSquare;
-
-        if (board.hasFree(firstCorner))
-            return firstCorner;
-
-        if (board.hasFree(secondCorner))
-            return secondCorner;
-
-        return board.emptySquares()[0];
-    }
-
-    function findWin(player) {
+    function getScore(board, player) {
         var i,
+            lastScore,
             possibleBoard,
+            currentScore,
+            possibleMoves,
+            opponent = (player === CPU) ? USER : CPU;
+
+        if (board.threeInline(CPU)) {
+            return 10;
+        } else if (board.threeInline(USER)) {
+            return -10;
+        } else if (board.isFull()) {
+            return 0;
+        } else {
             possibleMoves = board.emptySquares();
 
-        for (i = 0; i < possibleMoves.length; i++) {
-            possibleBoard = new Board(board.squares);
-            possibleBoard.move(possibleMoves[i], player);
+            for (i = 0; i < possibleMoves.length; i++) {
+                possibleBoard = new Board(board.squares);
+                possibleBoard.move(possibleMoves[i], opponent);
 
-            if (possibleBoard.threeInline(player))
-                return possibleMoves[i];
+                currentScore = getScore(possibleBoard, opponent);
+
+                if(player === CPU) {
+                    // find minimun
+                    if ((lastScore === undefined) || (currentScore < lastScore)) {
+                      lastScore = currentScore;
+                    }
+                } else {
+                    // find maximun
+                    if ((lastScore === undefined) || (currentScore > lastScore)) {
+                        lastScore = currentScore;
+                    }
+                }
+            }
+
+            return lastScore;
         }
     }
 
     function nextMove() {
-        var winningPosition,
-            blockUserPosition;
+        var i,
+            possibleBoard,
+            possibleMoves = board.emptySquares(),
+            lastScore,
+            maxScoredPosition,
+            currentScore;
 
-        if(winningPosition = findWin(cpu))
-            return winningPosition;
+        for (i = 0; i < possibleMoves.length; i++) {
+            possibleBoard = new Board(board.squares);
+            possibleBoard.move(possibleMoves[i], CPU);
 
-        if(blockUserPosition = findWin(user))
-            return blockUserPosition;
+            currentScore = getScore(possibleBoard, CPU);
 
-        return nextBest();
+            // find maximun
+           if ((lastScore === undefined) || currentScore >= lastScore) {
+               lastScore = currentScore;
+               maxScoredPosition = possibleMoves[i];
+           }
+        }
+
+        return maxScoredPosition;
     }
 
     function updateLayout() {
@@ -65,13 +85,14 @@ function MainViewModel() {
     self.move = function (position) {
         var cpuPosition;
 
-        if (!board.hasFree(position))
+        if (!board.hasFree(position)) {
             return;
+        }
        
-        board.move(position, user);
+        board.move(position, USER);
         updateLayout();
 
-        if (board.threeInline(user)) {
+        if (board.threeInline(USER)) {
             self.result('You win!');
             return;
         }
@@ -83,10 +104,11 @@ function MainViewModel() {
 
         cpuPosition = nextMove();
 
-        board.move(cpuPosition, cpu);
+        board.move(cpuPosition, CPU);
         updateLayout();
 
-        if (board.threeInline(cpu))
+        if (board.threeInline(CPU)) {
             self.result('You lose!');
+        }
     };
 }

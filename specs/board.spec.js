@@ -199,8 +199,8 @@ describe('when user makes two in a column', function () {
         board = new MainViewModel();
         
         board.setup([
-                ['X','O',''],
-                ['' ,'' ,''],
+                ['X','',''],
+                ['' ,'O' ,''],
                 ['' ,'' ,'']]);        
 
         board.move({x: 0, y: 1});
@@ -218,7 +218,7 @@ describe('when user makes two in a column v2', function () {
         board = new MainViewModel();
         
         board.setup([
-                ['', 'X',''],
+                ['', 'X','O'],
                 ['' ,'' ,''],
                 ['' ,'' ,'']]);
 
@@ -238,7 +238,7 @@ describe('when user makes two in a column v3', function () {
         
         board.setup([
                 ['', '', 'X'],
-                ['' ,'' ,''],
+                ['' ,'O' ,''],
                 ['' ,'' ,'']]);
 
         board.move({x: 2, y: 1});
@@ -257,10 +257,10 @@ describe('when user makes two in a column v4', function () {
         
         board.setup([
                 ['', '', ''],
-                ['' ,'' ,'X'],
-                ['' ,'' ,'']]);
+                ['' ,'O' ,''],
+                ['' ,'' ,'X']]);
 
-        board.move({x: 2, y: 2});
+        board.move({x: 2, y: 1});
     });
 
     it('cpu should take next square to avoid user winning', function () {
@@ -276,7 +276,7 @@ describe('when user makes two in a column v5', function () {
         
         board.setup([
                 ['', '', ''],
-                ['X' ,'' ,''],
+                ['X' ,'' ,'O'],
                 ['' ,'' ,'']]);
 
         board.move({x: 0, y: 2});
@@ -294,8 +294,8 @@ describe('when user makes two in a column in corners', function () {
         board = new MainViewModel();
         
         board.setup([
-                ['X', '', ''],
-                ['' ,'' ,''],
+                ['X','', ''],
+                ['' ,'O' ,''],
                 ['' ,'' ,'']]);
 
         board.move({x: 0, y: 2});
@@ -332,8 +332,8 @@ describe('when user makes two in a row in corners', function () {
         board = new MainViewModel();
         
         board.setup([
-                ['O','' ,''],
-                ['' ,'' ,''],
+                ['','' ,''],
+                ['' ,'O' ,''],
                 ['X','','']]);
 
         board.move({x: 2, y: 2});
@@ -351,34 +351,15 @@ describe('when user makes two in a diagonal', function () {
         board = new MainViewModel();
         
         board.setup([
-                ['' ,'','X'],
-                ['O','',''],
-                ['' ,'','']]);
+                ['' ,'',''],
+                ['','X',''],
+                ['' ,'','O']]);
 
-        board.move({x: 1, y: 1});
+        board.move({x: 2, y: 0});
     });
 
     it('cpu should take next in diagonal to avoid user winning', function () {
         expect(board.squares()[0][2]).toBe('O');
-    });
-});
-
-describe('when user makes two in a diagonal v2', function () {
-    var board;
-
-    beforeEach(function () {
-        board = new MainViewModel();
-        
-        board.setup([
-                ['X','O',''],
-                ['','',''],
-                ['' ,'','']]);
-
-        board.move({x: 1, y: 1});
-    });
-
-    it('cpu should take next in diagonal to avoid user winning', function () {
-        expect(board.squares()[2][2]).toBe('O');
     });
 });
 
@@ -396,39 +377,6 @@ describe('when middle square free', function () {
     });    
 });
 
-describe('when middle square is not free', function () {
-    var board;
-
-    beforeEach(function () {
-        board = new MainViewModel();
-
-        board.move({x: 1, y: 1});
-    });
-
-    it('cpu should take one in the corner', function () {
-        expect(board.squares()[0][0]).toBe('O');
-    });
-});
-
-describe('when middle and first corner corner are not free', function () {
-    var board;
-
-    beforeEach(function () {
-        board = new MainViewModel();
-
-        board.setup([
-                ['X','' ,''],
-                ['' ,'O',''],
-                ['' ,'' ,'']]);
-
-        board.move({x: 2, y: 2});
-    });
-
-    it('cpu should take one in the next corner', function () {
-        expect(board.squares()[2][0]).toBe('O');
-    });
-});
-
 describe('when cpu has chance to make three in diagonal', function () {
     var board;
 
@@ -436,11 +384,11 @@ describe('when cpu has chance to make three in diagonal', function () {
         board = new MainViewModel();
 
         board.setup([
-                ['X','' ,'O'],
-                ['' ,'O',''],
-                ['' ,'' ,'X']]);
+                ['X','X','O'],
+                ['' ,'','X'],
+                ['O','','O']]);
 
-        board.move({x: 1, y: 0});
+        board.move({x: 1, y: 2});
     });
 
     it('cpu should take make three in diagonal', function () {

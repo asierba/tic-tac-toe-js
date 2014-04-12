@@ -15,8 +15,9 @@ function Board(initSquares) {
 
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
-                if (self.hasFree({x:i, y:j}))
+                if (self.hasFree({x:i, y:j})) {
                     squares.push({x:i, y:j});
+                }
             }
         }
         return squares;
@@ -36,8 +37,9 @@ function Board(initSquares) {
         for (i = 0; i < 3; i++) {
             if (squares[i][0] === player &&
                     squares[i][1] === player &&
-                    squares[i][2] === player)
+                    squares[i][2] === player) {
                 return true;
+            }
         }
         return false;
     }
@@ -47,8 +49,9 @@ function Board(initSquares) {
         for (i = 0; i < 3; i++) {
             if (self.squares[0][i] === player &&
                     self.squares[1][i] === player &&
-                    self.squares[2][i] === player)
+                    self.squares[2][i] === player) {
                 return true;
+            }
         }
 
         return false;
@@ -61,9 +64,9 @@ function Board(initSquares) {
             ||
             (self.squares[2][0] === player &&
                 self.squares[1][1] === player &&
-                self.squares[0][2] === player))
+                self.squares[0][2] === player)) {
             return true;
-
+        }
         return false;
     }
 

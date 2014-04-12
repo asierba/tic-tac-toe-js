@@ -9,5 +9,6 @@
 -Behaviour to not let user make 3 Xs in a row.
 -Make cpu to take middle square or corners.
 -Make cpu to win when it has 2 Os in a row.
-More advanced stuff.
+-More advanced stuff.
 -Add style - bootstrap/
+Disable board once the game is over.
