@@ -4,24 +4,25 @@
     <link href="lib/bootstrap-3.1.1-.min.css" rel="stylesheet">
     <link href="board.css" rel="stylesheet">
     <script type='text/javascript' src='lib/knockout-3.1.0.js'></script>    
-    <script type='text/javascript' src='boardViewModel.js'></script>
+    <script type="text/javascript" src="board.js"></script>
+    <script type='text/javascript' src='mainViewModel.js'></script>
   </head>
   <body>
     <table class="table">  
       <tr>
-        <td data-bind="click: function () { move({x: 0, y:0}) }"><span data-bind="text: squares[0][0]"></span></td>
-        <td data-bind="click: function () { move({x: 1, y:0}) }"><span data-bind="text: squares[1][0]"></span></td>
-        <td data-bind="click: function () { move({x: 2, y:0}) }"><span data-bind="text: squares[2][0]"></span></td>
+        <td data-bind="click: function () { move({x: 0, y:0}) }"><span data-bind="text: squares()[0][0]"></span></td>
+        <td data-bind="click: function () { move({x: 1, y:0}) }"><span data-bind="text: squares()[1][0]"></span></td>
+        <td data-bind="click: function () { move({x: 2, y:0}) }"><span data-bind="text: squares()[2][0]"></span></td>
       </tr>
       <tr>
-        <td data-bind="click: function () { move({x: 0, y:1}) }"><span data-bind="text: squares[0][1]"></span></td>
-        <td data-bind="click: function () { move({x: 1, y:1}) }"><span data-bind="text: squares[1][1]"></span></td>
-        <td data-bind="click: function () { move({x: 2, y:1}) }"><span data-bind="text: squares[2][1]"></span></td>
+        <td data-bind="click: function () { move({x: 0, y:1}) }"><span data-bind="text: squares()[0][1]"></span></td>
+        <td data-bind="click: function () { move({x: 1, y:1}) }"><span data-bind="text: squares()[1][1]"></span></td>
+        <td data-bind="click: function () { move({x: 2, y:1}) }"><span data-bind="text: squares()[2][1]"></span></td>
       </tr>
       <tr>
-        <td data-bind="click: function () { move({x: 0, y:2}) }"><span data-bind="text: squares[0][2]"></span></td>
-        <td data-bind="click: function () { move({x: 1, y:2}) }"><span data-bind="text: squares[1][2]"></span></td>
-        <td data-bind="click: function () { move({x: 2, y:2}) }"><span data-bind="text: squares[2][2]"></span></td>
+        <td data-bind="click: function () { move({x: 0, y:2}) }"><span data-bind="text: squares()[0][2]"></span></td>
+        <td data-bind="click: function () { move({x: 1, y:2}) }"><span data-bind="text: squares()[1][2]"></span></td>
+        <td data-bind="click: function () { move({x: 2, y:2}) }"><span data-bind="text: squares()[2][2]"></span></td>
       </tr>
     </table>
     <div id="result">
@@ -29,6 +30,6 @@
     </div>
   </body>
    <script type='text/javascript'>
-    ko.applyBindings(new BoardViewModel());
+    ko.applyBindings(new MainViewModel());
    </script>
 </html>
