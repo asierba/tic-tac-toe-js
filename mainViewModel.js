@@ -14,68 +14,53 @@ function MainViewModel() {
         return board.squares;
     });
 
-    function getScore(board, player) {
+    function max(currentMove, bestMove) {
+      return currentMove.score <= bestMove.score;
+    }
+
+    function min(currentMove, bestMove) {
+      return currentMove.score >= bestMove.score;
+    }
+
+    function getBestMove(newBoard, player) {
         var i,
-            lastScore,
             possibleBoard,
-            currentScore,
+            bestMove,
+            currentMove,
             possibleMoves,
-            opponent = (player === CPU) ? USER : CPU;
+            opponent = (player === CPU) ? USER : CPU,
+            compare = (player === CPU) ? max : min;
 
-        if (board.threeInline(CPU)) {
-            return 10;
-        } else if (board.threeInline(USER)) {
-            return -10;
-        } else if (board.isFull()) {
-            return 0;
-        } else {
-            possibleMoves = board.emptySquares();
-
-            for (i = 0; i < possibleMoves.length; i++) {
-                possibleBoard = new Board(board.squares);
-                possibleBoard.move(possibleMoves[i], opponent);
-
-                currentScore = getScore(possibleBoard, opponent);
-
-                if(player === CPU) {
-                    // find minimun
-                    if ((lastScore === undefined) || (currentScore < lastScore)) {
-                      lastScore = currentScore;
-                    }
-                } else {
-                    // find maximun
-                    if ((lastScore === undefined) || (currentScore > lastScore)) {
-                        lastScore = currentScore;
-                    }
-                }
-            }
-
-            return lastScore;
+        if (newBoard.threeInline(CPU)) {
+            return { score: 10 };
+        } else if (newBoard.threeInline(USER)) {
+            return { score: -10 };
+        } else if (newBoard.isFull()) {
+            return { score: 0 };
         }
+
+        possibleMoves = newBoard.emptySquares();
+
+        for (i = 0; i < possibleMoves.length; i++) {
+            possibleBoard = new Board(newBoard.squares);
+            possibleBoard.move(possibleMoves[i], opponent);
+
+            currentMove = getBestMove(possibleBoard, opponent);
+
+            if ((bestMove === undefined) || compare(currentMove, bestMove)) {
+              bestMove = {
+                score: currentMove.score,
+                position: possibleMoves[i]
+              };
+            }
+        }
+
+        return bestMove;
     }
 
     function nextMove() {
-        var i,
-            possibleBoard,
-            possibleMoves = board.emptySquares(),
-            lastScore,
-            maxScoredPosition,
-            currentScore;
-
-        for (i = 0; i < possibleMoves.length; i++) {
-            possibleBoard = new Board(board.squares);
-            possibleBoard.move(possibleMoves[i], CPU);
-
-            currentScore = getScore(possibleBoard, CPU);
-
-            // find maximun
-           if ((lastScore === undefined) || currentScore >= lastScore) {
-               lastScore = currentScore;
-               maxScoredPosition = possibleMoves[i];
-           }
-        }
-
-        return maxScoredPosition;
+      var move = getBestMove(board, USER);
+      return move.position;
     }
 
     function updateLayout() {
