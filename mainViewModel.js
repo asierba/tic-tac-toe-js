@@ -22,19 +22,20 @@ function MainViewModel() {
       return currentMove.score >= bestMove.score;
     }
 
-    function getBestMove(newBoard, player) {
+    function getBestMove(newBoard, player, level) {
         var i,
             possibleBoard,
             bestMove,
             currentMove,
             possibleMoves,
+            level = level || 0,
             opponent = (player === CPU) ? USER : CPU,
             compare = (player === CPU) ? max : min;
 
         if (newBoard.threeInline(CPU)) {
-            return { score: 10 };
+            return { score: 100 - level };
         } else if (newBoard.threeInline(USER)) {
-            return { score: -10 };
+            return { score: -100 };
         } else if (newBoard.isFull()) {
             return { score: 0 };
         }
@@ -45,7 +46,7 @@ function MainViewModel() {
             possibleBoard = new Board(newBoard.squares);
             possibleBoard.move(possibleMoves[i], opponent);
 
-            currentMove = getBestMove(possibleBoard, opponent);
+            currentMove = getBestMove(possibleBoard, opponent, level + 1);
 
             if ((bestMove === undefined) || compare(currentMove, bestMove)) {
               bestMove = {

@@ -337,6 +337,26 @@ describe('when user makes two in a row', function () {
     });
 });
 
+
+describe('when user makes two in a row v2', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new MainViewModel();
+        
+        board.setup([
+                ['X' ,'' ,''],
+                ['' ,'O','O'],
+                ['' ,'','X']]);
+
+        board.move({x: 1, y: 2});
+    });
+
+    it('cpu should take next in row to avoid user winning', function () {
+        expect(board.squares()[0][1]).toBe('O');
+    });
+});
+
 describe('when user makes two in a row in corners', function () {
     var board;
 
