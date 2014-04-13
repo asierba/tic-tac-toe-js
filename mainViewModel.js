@@ -82,10 +82,14 @@ function MainViewModel() {
         notifier.valueHasMutated();
     }
 
+    function gameIsOver() {
+      return board.threeInline(USER) || board.threeInline(CPU) || board.isFull();
+    }
+
     self.move = function (position) {
         var cpuPosition;
 
-        if (!board.hasFree(position)) {
+        if (!board.hasFree(position) || gameIsOver()) {
             return;
         }
        

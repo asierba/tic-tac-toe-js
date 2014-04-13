@@ -171,6 +171,12 @@ describe('when user makes three in a row', function () {
     it('cpu should not make move', function () {
         expect(board.squares()[2][2]).not.toBe('O');
     });
+
+    it('user shouldn\'t be able to make more moves', function() {
+        board.move({x: 0, y: 0});
+
+        expect(board.squares()[0][0]).not.toBe('X');
+    });
 });
 
 describe('when cpu makes three in a row', function () {
@@ -189,6 +195,12 @@ describe('when cpu makes three in a row', function () {
 
     it('cpu should win', function () {
         expect(board.result()).toBe('You lose!');
+    });
+
+    it('user shouldn\'t be able to make more moves', function() {
+        board.move({x: 2, y: 2});
+
+        expect(board.squares()[2][2]).not.toBe('X');
     });
 });
 

@@ -11,4 +11,4 @@
 -Make cpu to win when it has 2 Os in a row.
 -More advanced stuff.
 -Add style - bootstrap/
-Disable board once the game is over.
+-Disable board once the game is over.
