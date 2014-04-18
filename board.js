@@ -1,7 +1,9 @@
 function Board(initSquares) {
     'use strict';
     var self = this,
-        empty = '';
+        empty = '',
+        USER = 'X',
+        CPU = 'O';
 
     self.squares = [[], [], []];
 
@@ -27,8 +29,12 @@ function Board(initSquares) {
         return self.emptySquares().length === 0;
     };
 
-    self.move = function(position, player) {
-        self.squares[position.x][position.y] = player;
+    self.moveUser = function(position) {
+        self.squares[position.x][position.y] = USER;
+    };
+
+    self.moveCpu = function(position) {
+        self.squares[position.x][position.y] = CPU;
     };
 
     function threeInAColumn(player) {
@@ -70,10 +76,22 @@ function Board(initSquares) {
         return false;
     }
 
-    self.threeInline = function(player) {
+    function threeInline(player) {
         return threeInAColumn(player) ||
                 threeInARow(player) ||
                 threeInDiagonal(player);
+    }
+
+    self.userWins = function() {
+        return threeInline(USER);
+    };
+
+    self.cpuWins = function() {
+        return threeInline(CPU);
+    };
+
+    self.gameIsOver = function() {
+        return self.userWins() || self.cpuWins() || self.isFull();
     };
 
     function setup(squares) {
