@@ -1,6 +1,5 @@
-/*global describe, beforeEach, MainViewModel, it, expect */
-
-MainViewModel.prototype.setup = function (squares) {
+/*global describe, beforeEach, BoardViewModel, it, expect */
+BoardViewModel.prototype.setup = function (squares) {
     var x, y;
     for (x = 0; x < 3; x++) {
         for (y = 0; y < 3; y++) {
@@ -13,7 +12,7 @@ describe('when loading the board', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
     });
 
     it('all squares are free', function () {
@@ -44,7 +43,7 @@ describe('when user clicks in a non empty square', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         board.setup([
             ['' ,'' ,''],
             ['' ,'0' ,''],
@@ -66,7 +65,7 @@ describe('when user clicks in square next to a non empty square', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         board.setup([
             ['' ,'' ,''],
             ['' ,'X',''],
@@ -92,7 +91,7 @@ describe('when user clicks in square next to two taken squares', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         board.setup([
             ['' ,'' ,''],
             ['' ,'X','O'],
@@ -114,7 +113,7 @@ describe('when user clicks in square next to four taken squares', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         board.setup([
             ['' ,'' ,''],
             ['X','X' ,'O'],
@@ -136,7 +135,7 @@ describe('when no more free spaces to be taken by cpu', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         board.setup([
             ['X' ,'O' ,'X'],
             ['X' ,'O' ,'X'],
@@ -154,7 +153,7 @@ describe('when user makes three in a row', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
 
         board.setup([
             ['' ,'X' ,'O'],
@@ -183,7 +182,7 @@ describe('when cpu makes three in a row', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         
         board.setup([
                 ['X','' ,''],
@@ -208,7 +207,7 @@ describe('when user makes two in a column', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         
         board.setup([
                 ['X','',''],
@@ -227,7 +226,7 @@ describe('when user makes two in a row', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         
         board.setup([
                 ['' ,'' ,''],
@@ -246,7 +245,7 @@ describe('when user makes two in a diagonal', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
         
         board.setup([
                 ['' ,'',''],
@@ -265,7 +264,7 @@ describe('when middle square free', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
 
         board.move({x: 2, y: 2});
     });
@@ -279,7 +278,7 @@ describe('when cpu has chance to make three in diagonal', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
 
         board.setup([
                 ['X','X','O'],
@@ -302,7 +301,7 @@ describe('when cpu has chance to make three in a row', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
 
         board.setup([
                 ['','O' ,'O'],
@@ -325,7 +324,7 @@ describe('when cpu has chance to make three in a column', function () {
     var board;
 
     beforeEach(function () {
-        board = new MainViewModel();
+        board = new BoardViewModel();
 
         board.setup([
                 ['' ,'' ,'O'],
