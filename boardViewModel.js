@@ -1,10 +1,8 @@
-/*global ko, Board */
-function BoardViewModel() {
+/*global ko, Game*/
+function BoardViewModel(board) {
     'use strict';
     var self = this,
-        notifier = ko.observable(), // used just to get the board refreshed in the UI
-        board = new Board(),
-        game = new Game(board); // TODO this injection is smelly
+        notifier = ko.observable(); // used just to get the board refreshed in the UI
 
     function updateLayout() {
         notifier.valueHasMutated();
@@ -16,12 +14,19 @@ function BoardViewModel() {
     });
 
     self.move = function (position) {
+        var cpuPosition;
+
         if (!board.hasFree(position) || board.gameIsOver()) {
             return;
         }
        
         board.moveUser(position);
-        game.doCpuMove();
+        
+        if (!board.gameIsOver()) {
+            cpuPosition = Game.getBestPosition(board);
+            board.moveCpu(cpuPosition);
+        }
+        
         updateLayout();
     };
 

@@ -1,13 +1,12 @@
 /*global Board, Turn */
-Turn = {
+'use strict';
+
+var Turn = {
     user: 0,
     cpu: 1
 };
 
-function Game(mainBoard) {
-    'use strict';
-    var self = this;
-
+var Game = (function () {
     function isSmaller(current, other) {
         if(other === undefined) {
             return true;
@@ -29,7 +28,6 @@ function Game(mainBoard) {
             currentMove,
             possibleMoves,
             level = level || 0,
-            turn = turn || Turn.user,
             nextTurn = (turn === Turn.user) ? Turn.cpu : Turn.user,
             isBetter = (turn === Turn.user) ? isGreater : isSmaller;
 
@@ -63,17 +61,12 @@ function Game(mainBoard) {
         return bestMove;
     }
 
-    self.doCpuMove = function() {
-        var move,
-            position;
+    function getBestPosition(mainBoard) {
+        var move = getBestMove(mainBoard, Turn.user);
+        return move.position;
+    }
 
-        if (mainBoard.gameIsOver()) {
-            return;
-        }
-
-        move = getBestMove(mainBoard);
-        position = move.position;
-
-        mainBoard.moveCpu(position);
+    return {
+        getBestPosition : getBestPosition
     };
-}
+})();
