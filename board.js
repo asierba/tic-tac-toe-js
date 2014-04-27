@@ -5,7 +5,7 @@ function Board(initSquares) {
         USER = 'X',
         CPU = 'O';
 
-    self.squares = [[], [], []];
+    self.squares = [];
 
     self.hasFree = function(position) {
         return self.squares[position.x][position.y] === empty;
@@ -94,6 +94,10 @@ function Board(initSquares) {
         return self.userWins() || self.cpuWins() || self.isFull();
     };
 
+    self.reset = function() {
+        initialiseEmpty();
+    };
+
     function setup(squares) {
         var x, y;
         for (x = 0; x < 3; x++) {
@@ -104,6 +108,7 @@ function Board(initSquares) {
     }
 
     function initialiseEmpty() {
+        self.squares = [[], [], []];
         var i, j;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {

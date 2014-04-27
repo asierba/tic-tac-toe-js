@@ -46,4 +46,9 @@ function BoardViewModel(board) {
 
         return '';
     });
+
+    self.refresh = function() {
+        board.reset();
+        updateLayout();
+    };
 }

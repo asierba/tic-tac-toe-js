@@ -109,6 +109,24 @@ describe('when no more free spaces', function () {
     it('game should be over', function () {
         expect(board.gameIsOver()).toBe(true);
     });
+
+    describe('and user resets the board', function () {
+        beforeEach(function () {
+            board.reset();
+        });
+
+        it('board should not be full', function () {
+            expect(board.isFull()).not.toBe(true);
+        });
+
+
+        it('all squares should be empty' , function () {
+            board.reset();
+
+            expect(board.emptySquares().length).toBe(9);
+        });
+
+    });
 });
 
 describe('when just one space free', function () {

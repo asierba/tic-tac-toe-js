@@ -15,8 +15,15 @@ table {
     }
 
 span {
-  font-size: 100;  
+  font-size: 90;  
 }
+
+div#refresh  {
+  text-align: center;
+}
+    div#refresh span {
+      font-size: 20 !important;
+    }
 
 div#result {
   text-align: center;

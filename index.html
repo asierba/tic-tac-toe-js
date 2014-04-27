@@ -26,6 +26,11 @@
         <td data-bind="click: function () { move({x: 2, y:2}) }"><span data-bind="text: squares()[2][2]"></span></td>
       </tr>
     </table>
+    <div id="refresh">
+        <button data-bind="click: refresh" type="button" class="btn btn-default btn-lg">
+          <span class="glyphicon glyphicon-refresh"></span> Refresh board
+        </button>
+      </div> 
     <div id="result">
       <span data-bind="text: result"></span>
     </div>
