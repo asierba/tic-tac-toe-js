@@ -26,12 +26,19 @@
         <td data-bind="click: function () { move({x: 2, y:2}) }"><span data-bind="text: squares()[2][2]"></span></td>
       </tr>
     </table>
+    <div id="player">
+        <span>Starting player: </span>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" data-bind="css: { active: userStarting() }, click: function () { userStarting(true) }">User</button>
+            <button type="button" class="btn btn-default" data-bind="css: { active: !userStarting() }, click: function () { userStarting(false) }">CPU</button>
+        </div>
+    </div>
     <div id="refresh">
         <button data-bind="click: refresh" type="button" class="btn btn-default btn-lg">
           <span class="glyphicon glyphicon-refresh"></span> Refresh board
         </button>
       </div> 
-    <div id="result">
+    <div>
       <span data-bind="text: result"></span>
     </div>
   </body>

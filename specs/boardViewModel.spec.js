@@ -2,18 +2,31 @@
 
 'use scrict';
 
-describe('when first time loading the board', function() {
-    var boardViewModel;
+describe('when first time loading the board', function () {
+    var boardViewModel,
+        board;
 
     beforeEach(function () {
-        var board = jasmine.createSpyObj('board', 
+        board = jasmine.createSpyObj('board', 
             ['moveUser', 'moveCpu', 'userWins', 'isFull', 'cpuWins', 'hasFree', 'gameIsOver']);
+        board.hasFree.and.returnValue(true);
+        board.gameIsOver.and.returnValue(false);
+
+        spyOn(Game, 'getBestPosition');
 
         boardViewModel = new BoardViewModel(board);
     });
 
     it('there shouldn\'t be a result', function () {
         expect(boardViewModel.result()).toBe('');
+    });
+
+    it('user hasn\'t made a move', function () {
+        expect(board.moveUser).not.toHaveBeenCalled();
+    });
+
+    it('cpu hasn\'t made a move', function () {
+        expect(board.moveCpu).not.toHaveBeenCalled();
     });
 });
 
@@ -131,5 +144,35 @@ describe('when game is over after user click', function() {
 
     it('cpu shouln\'t make a move', function() {
         expect(board.moveCpu).not.toHaveBeenCalled();
+    });
+});
+
+
+describe('when refreshing the board with cpu as starting player', function () {
+    var boardViewModel,
+        board,
+        cpuMove = { x: 1, y: 2 };
+
+    beforeEach(function () {
+        board = jasmine.createSpyObj('board',
+            ['moveUser', 'moveCpu', 'userWins', 'isFull', 'cpuWins', 'hasFree', 'gameIsOver', 'reset']);
+        board.hasFree.and.returnValue(true);
+        board.gameIsOver.and.returnValue(false);
+
+        spyOn(Game, 'getBestPosition').and.returnValue(cpuMove);
+
+        boardViewModel = new BoardViewModel(board);
+
+        boardViewModel.userStarting(false);
+        boardViewModel.refresh();
+    });
+
+    it('user hasn\'t made a move', function () {
+        expect(board.moveUser).not.toHaveBeenCalled();
+    });
+
+    it('cpu has made a move', function () {
+        expect(board.moveCpu).toHaveBeenCalled();
+        expect(board.moveCpu).toHaveBeenCalledWith(cpuMove);
     });
 });

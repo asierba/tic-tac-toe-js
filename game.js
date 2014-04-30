@@ -62,6 +62,11 @@ var Game = (function () {
     }
 
     function getBestPosition(mainBoard) {
+        var middleSquare = { x: 1, y: 1 };
+        if (mainBoard.isEmtpy()) {
+            return middleSquare;
+        }
+
         var move = getBestMove(mainBoard, Turn.user);
         return move.position;
     }

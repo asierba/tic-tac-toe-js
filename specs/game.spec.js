@@ -46,19 +46,19 @@ describe('when user makes two in a diagonal', function () {
     });
 });
 
-describe('when middle square free', function () {
+describe('when board is empty', function () {
     var board;
     beforeEach(function () {
         board = new Board(inverse([
-                ['','',''],
-                ['' ,'',''],
-                ['','','X']]));
+                ['', '', ''],
+                ['', '', ''],
+                ['', '', '']]));
     });
 
-    it('cpu should take it', function () {
+    it('cpu should take middle square', function () {
         var poisition = Game.getBestPosition(board);
-        expect(poisition).toEqual({ x: 1, y: 1});
-    });    
+        expect(poisition).toEqual({ x: 1, y: 1 });
+    });
 });
 
 describe('when cpu has chance to make three in diagonal', function () {

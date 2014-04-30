@@ -47,8 +47,18 @@ function BoardViewModel(board) {
         return '';
     });
 
-    self.refresh = function() {
+    self.userStarting = ko.observable(true);
+
+    self.refresh = function () {
+        var cpuPosition;
+
         board.reset();
+
+        if (!self.userStarting()) {
+            cpuPosition = Game.getBestPosition(board);
+            board.moveCpu(cpuPosition);
+        }
+
         updateLayout();
     };
 }

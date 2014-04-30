@@ -14,17 +14,18 @@ table {
       vertical-align: middle !important;
     }
 
+div {
+    text-align: center;
+}
+
 span {
-  font-size: 90;  
+  font-size: 60px;
 }
 
-div#refresh  {
-  text-align: center;
+div#player {
+    margin: 10px;
 }
-    div#refresh span {
-      font-size: 20 !important;
-    }
 
-div#result {
-  text-align: center;
+div#refresh span, div#player span {
+    font-size: 20px !important;
 }

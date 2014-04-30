@@ -25,7 +25,11 @@ function Board(initSquares) {
         return squares;
     };
 
-    self.isFull = function() {
+    self.isEmtpy = function () {
+        return self.emptySquares().length === 9;
+    };
+
+    self.isFull = function () {
         return self.emptySquares().length === 0;
     };
 
