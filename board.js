@@ -7,18 +7,18 @@ function Board(initSquares) {
 
     self.squares = [];
 
-    self.hasFree = function(position) {
+    self.hasFree = function (position) {
         return self.squares[position.x][position.y] === empty;
     };
 
-    self.emptySquares = function() {
+    self.emptySquares = function () {
         var i, j,
             squares = [];
 
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
-                if (self.hasFree({x:i, y:j})) {
-                    squares.push({x:i, y:j});
+                if (self.hasFree({ x: i, y: j})) {
+                    squares.push({ x: i, y: j});
                 }
             }
         }
@@ -33,11 +33,11 @@ function Board(initSquares) {
         return self.emptySquares().length === 0;
     };
 
-    self.moveUser = function(position) {
+    self.moveUser = function (position) {
         self.squares[position.x][position.y] = USER;
     };
 
-    self.moveCpu = function(position) {
+    self.moveCpu = function (position) {
         self.squares[position.x][position.y] = CPU;
     };
 
@@ -86,30 +86,17 @@ function Board(initSquares) {
                 threeInDiagonal(player);
     }
 
-    self.userWins = function() {
+    self.userWins = function () {
         return threeInline(USER);
     };
 
-    self.cpuWins = function() {
+    self.cpuWins = function () {
         return threeInline(CPU);
     };
 
-    self.gameIsOver = function() {
+    self.gameIsOver = function () {
         return self.userWins() || self.cpuWins() || self.isFull();
     };
-
-    self.reset = function() {
-        initialiseEmpty();
-    };
-
-    function setup(squares) {
-        var x, y;
-        for (x = 0; x < 3; x++) {
-            for (y = 0; y < 3; y++) {
-               self.squares[x][y] = squares[x][y];
-            }
-        }
-    }
 
     function initialiseEmpty() {
         self.squares = [[], [], []];
@@ -121,9 +108,22 @@ function Board(initSquares) {
         }
     }
 
+    self.reset = function () {
+        initialiseEmpty();
+    };
+
+    function setup(squares) {
+        var x, y;
+        for (x = 0; x < 3; x++) {
+            for (y = 0; y < 3; y++) {
+                self.squares[x][y] = squares[x][y];
+            }
+        }
+    }
+
     initialiseEmpty();
 
-    if(initSquares) {
+    if (initSquares) {
         setup(initSquares);
     }
 }

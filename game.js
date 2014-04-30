@@ -1,5 +1,4 @@
 /*global Board, Turn */
-'use strict';
 
 var Turn = {
     user: 0,
@@ -7,15 +6,16 @@ var Turn = {
 };
 
 var Game = (function () {
+    'use strict';
     function isSmaller(current, other) {
-        if(other === undefined) {
+        if (other === undefined) {
             return true;
         }
         return current.score < other.score;
     }
 
     function isGreater(current, other) {
-        if(other === undefined) {
+        if (other === undefined) {
             return true;
         }
         return current.score > other.score;
@@ -33,9 +33,11 @@ var Game = (function () {
 
         if (board.cpuWins()) {
             return { score: 100 - level };
-        } else if (board.userWins()) {
+        }
+        if (board.userWins()) {
             return { score: -100 };
-        } else if (board.isFull()) {
+        }
+        if (board.isFull()) {
             return { score: 0 };
         }
 
@@ -62,16 +64,17 @@ var Game = (function () {
     }
 
     function getBestPosition(mainBoard) {
-        var middleSquare = { x: 1, y: 1 };
+        var middleSquare = { x: 1, y: 1 },
+            move;
         if (mainBoard.isEmtpy()) {
             return middleSquare;
         }
 
-        var move = getBestMove(mainBoard, Turn.user);
+        move = getBestMove(mainBoard, Turn.user);
         return move.position;
     }
 
     return {
         getBestPosition : getBestPosition
     };
-})();
+}());

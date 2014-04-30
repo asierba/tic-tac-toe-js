@@ -8,7 +8,7 @@ function BoardViewModel(board) {
         notifier.valueHasMutated();
     }
 
-    self.squares = ko.computed(function() {
+    self.squares = ko.computed(function () {
         notifier();
         return board.squares;
     });
@@ -19,18 +19,18 @@ function BoardViewModel(board) {
         if (!board.hasFree(position) || board.gameIsOver()) {
             return;
         }
-       
+
         board.moveUser(position);
-        
+
         if (!board.gameIsOver()) {
             cpuPosition = Game.getBestPosition(board);
             board.moveCpu(cpuPosition);
         }
-        
+
         updateLayout();
     };
 
-    self.result =  ko.computed(function() {
+    self.result =  ko.computed(function () {
         notifier();
         if (board.userWins()) {
             return 'You win!';
