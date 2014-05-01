@@ -1,8 +1,10 @@
 function inverse(squares) {
     var x, y,
-        result =  [[], [], []];
-    for (x = 0; x < 3; x++) {
-        for (y = 0; y < 3; y++) {
+    	length = squares.length,
+        result =  [];
+    for (x = 0; x < length; x++) {
+    	result[x] = [];
+        for (y = 0; y < length; y++) {
             result[x][y] = squares[y][x];
         }
     }

@@ -3,7 +3,9 @@ function Board(initSquares) {
     var self = this,
         empty = '',
         USER = 'X',
-        CPU = 'O';
+        CPU = 'O',
+        DEFAULT_SIZE = 3,
+        size;
 
     self.squares = [];
 
@@ -15,8 +17,8 @@ function Board(initSquares) {
         var i, j,
             squares = [];
 
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
+        for (i = 0; i < size; i++) {
+            for (j = 0; j < size; j++) {
                 if (self.hasFree({ x: i, y: j})) {
                     squares.push({ x: i, y: j});
                 }
@@ -42,12 +44,12 @@ function Board(initSquares) {
     };
 
     function threeInAColumn(player) {
-        var i,
+        var x,
             squares = self.squares;
-        for (i = 0; i < 3; i++) {
-            if (squares[i][0] === player &&
-                    squares[i][1] === player &&
-                    squares[i][2] === player) {
+        for (x = 0; x < size; x++) {
+            if (squares[x][0] === player &&
+                    squares[x][1] === player &&
+                    squares[x][2] === player) {
                 return true;
             }
         }
@@ -55,11 +57,11 @@ function Board(initSquares) {
     }
 
     function threeInARow(player) {
-        var i;
-        for (i = 0; i < 3; i++) {
-            if (self.squares[0][i] === player &&
-                    self.squares[1][i] === player &&
-                    self.squares[2][i] === player) {
+        var y;
+        for (y = 0; y < size; y++) {
+            if (self.squares[0][y] === player &&
+                    self.squares[1][y] === player &&
+                    self.squares[2][y] === player) {
                 return true;
             }
         }
@@ -98,32 +100,33 @@ function Board(initSquares) {
         return self.userWins() || self.cpuWins() || self.isFull();
     };
 
-    function initialiseEmpty() {
-        self.squares = [[], [], []];
-        var i, j;
-        for (i = 0; i < 3; i++) {
-            for (j = 0; j < 3; j++) {
-                self.squares[i].push(empty);
-            }
-        }
-    }
 
     self.reset = function () {
-        initialiseEmpty();
-    };
-
-    function setup(squares) {
         var x, y;
-        for (x = 0; x < 3; x++) {
-            for (y = 0; y < 3; y++) {
-                self.squares[x][y] = squares[x][y];
+        for (x = 0; x < size; x++) {
+            for (y = 0; y < size; y++) {
+                self.squares[x][y] = empty;
             }
         }
-    }
+    };
 
-    initialiseEmpty();
+    function defaultSquares() {
+        var x, y,
+            result = [];
+        for (x = 0; x < DEFAULT_SIZE; x++) {
+            result[x] = [];
+            for (y = 0; y < DEFAULT_SIZE; y++) {
+                result[x].push(empty);
+            }
+        }
+        return result;
+    }
 
     if (initSquares) {
-        setup(initSquares);
+        self.squares = ArrayHelper.cloneMatrix(initSquares);
+    } else {
+        self.squares = defaultSquares();
     }
+
+    size = self.squares.length;
 }

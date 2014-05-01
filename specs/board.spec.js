@@ -143,3 +143,39 @@ describe('when just one space free', function () {
         expect(board.emptySquares()[0]).toEqual({ x: 0, y: 2});
     });
 });
+
+
+describe('When board is 4x4', function () {
+    var board;
+
+    beforeEach(function () {
+        board = new Board(inverse([
+            ['X', '', 'X', ''],
+            ['X','O', 'X', ''],
+            ['', '', 'O', ''],
+            ['', 'X', 'O', '']]));
+    });
+
+    it('user should be able to take a square in the 4th column', function () {
+        board.moveUser({ x: 3, y: 0 });
+        expect(board.squares[3][0]).toBe('X');
+    });
+
+    describe('and user resets the board', function () {
+        beforeEach(function () {
+            board.reset();
+        });
+
+        it('board should not be full', function () {
+            expect(board.isFull()).not.toBe(true);
+        });
+
+
+        it('all squares should be empty' , function () {
+            board.reset();
+
+            expect(board.emptySquares().length).toBe(16);
+        });
+
+    });
+});
