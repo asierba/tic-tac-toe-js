@@ -1,6 +1,7 @@
 table {
   width: 80%;
   height: 80%;
+  margin: auto;
 }
 
   table tr {
@@ -25,7 +26,6 @@ span {
 div#player {
     margin: 10px;
 }
-
-div#refresh span, div#player span {
-    font-size: 20px !important;
-}
+    div#player span {
+        font-size: 20px !important;
+    }

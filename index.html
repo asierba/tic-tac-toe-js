@@ -10,7 +10,23 @@
     <script type='text/javascript' src='arrayHelper.js'></script>
   </head>
   <body>
-    <table class="table">  
+    <div id="player">
+        <span>Starting</span>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default" title="Pick user as starting player"
+              data-bind="css: { active: userStarting() }, click: function () { userStarting(true) }">
+                <span>User</span>
+            </button>
+            <button type="button" class="btn btn-default" title="Pick CPU as starting player"
+              data-bind="css: { active: !userStarting() }, click: function () { userStarting(false) }">
+                <span>CPU</span>
+            </button>
+        </div>
+        <button data-bind="click: refresh" type="button" class="btn btn-default btn-lg" title="Refresh board">
+          <span class="glyphicon glyphicon-refresh"></span>
+        </button>
+    </div>
+    <table>
       <tr>
         <td data-bind="click: function () { move({x: 0, y:0}) }"><span data-bind="text: squares()[0][0]"></span></td>
         <td data-bind="click: function () { move({x: 1, y:0}) }"><span data-bind="text: squares()[1][0]"></span></td>
@@ -27,18 +43,6 @@
         <td data-bind="click: function () { move({x: 2, y:2}) }"><span data-bind="text: squares()[2][2]"></span></td>
       </tr>
     </table>
-    <div id="player">
-        <span>Starting player: </span>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default" data-bind="css: { active: userStarting() }, click: function () { userStarting(true) }">User</button>
-            <button type="button" class="btn btn-default" data-bind="css: { active: !userStarting() }, click: function () { userStarting(false) }">CPU</button>
-        </div>
-    </div>
-    <div id="refresh">
-        <button data-bind="click: refresh" type="button" class="btn btn-default btn-lg">
-          <span class="glyphicon glyphicon-refresh"></span> Refresh board
-        </button>
-      </div> 
     <div>
       <span data-bind="text: result"></span>
     </div>
