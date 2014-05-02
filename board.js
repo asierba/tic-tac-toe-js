@@ -28,7 +28,7 @@ function Board(initSquares) {
     };
 
     self.isEmtpy = function () {
-        return self.emptySquares().length === 9;
+        return self.emptySquares().length === size * size;
     };
 
     self.isFull = function () {
@@ -96,11 +96,6 @@ function Board(initSquares) {
         return threeInline(CPU);
     };
 
-    self.gameIsOver = function () {
-        return self.userWins() || self.cpuWins() || self.isFull();
-    };
-
-
     self.reset = function () {
         var x, y;
         for (x = 0; x < size; x++) {
@@ -110,7 +105,7 @@ function Board(initSquares) {
         }
     };
 
-    function defaultSquares() {
+    function defaultBoard() {
         var x, y,
             result = [];
         for (x = 0; x < DEFAULT_SIZE; x++) {
@@ -125,7 +120,7 @@ function Board(initSquares) {
     if (initSquares) {
         self.squares = ArrayHelper.cloneMatrix(initSquares);
     } else {
-        self.squares = defaultSquares();
+        self.squares = defaultBoard();
     }
 
     size = self.squares.length;

@@ -1,80 +1,54 @@
-/*global Board, Turn */
+function Game(board) {
+	'use strict';
+	var self = this;
 
-var Turn = {
-    user: 0,
-    cpu: 1
-};
+	self.getSquares = function () {
+		return board.squares;
+	};
 
-var Game = (function () {
-    'use strict';
-    function isSmaller(current, other) {
-        if (other === undefined) {
-            return true;
-        }
-        return current.score < other.score;
+    function isOver() {
+        return board.userWins() || board.cpuWins() || board.isFull();
     }
 
-    function isGreater(current, other) {
-        if (other === undefined) {
-            return true;
-        }
-        return current.score > other.score;
-    }
+	self.doMove = function (position) {
+		var cpuPosition;
 
-    function getBestMove(board, turn, level) {
-        var i,
-            possibleBoard,
-            bestMove,
-            currentMove,
-            possibleMoves,
-            level = level || 0,
-            nextTurn = (turn === Turn.user) ? Turn.cpu : Turn.user,
-            isBetter = (turn === Turn.user) ? isGreater : isSmaller;
+		if (!board.hasFree(position) || isOver()) {
+            return;
+        }
+
+		board.moveUser(position);
+
+        if (!isOver()) {
+            cpuPosition = CpuLogic.getBestPosition(board);
+            board.moveCpu(cpuPosition);
+        }
+	};
+
+	self.restart = function (userStarting) {
+		var cpuPosition;
+
+        board.reset();
+
+        if (!userStarting) {
+            cpuPosition = CpuLogic.getBestPosition(board);
+            board.moveCpu(cpuPosition);
+        }
+	};
+
+	self.result =  function () {
+        if (board.userWins()) {
+            return 'You win!';
+        }
+
+        if (board.isFull()) {
+            return 'Draw';
+        }
 
         if (board.cpuWins()) {
-            return { score: 100 - level };
-        }
-        if (board.userWins()) {
-            return { score: -100 };
-        }
-        if (board.isFull()) {
-            return { score: 0 };
+            return 'You lose!';
         }
 
-        possibleMoves = board.emptySquares();
-
-        for (i = 0; i < possibleMoves.length; i++) {
-            possibleBoard = new Board(board.squares);
-
-            if (turn === Turn.user) {
-                possibleBoard.moveCpu(possibleMoves[i]);
-            } else {
-                possibleBoard.moveUser(possibleMoves[i]);
-            }
-
-            currentMove = getBestMove(possibleBoard, nextTurn, level + 1);
-
-            if (isBetter(currentMove, bestMove)) {
-                bestMove = currentMove;
-                bestMove.position = possibleMoves[i];
-            }
-        }
-
-        return bestMove;
-    }
-
-    function getBestPosition(mainBoard) {
-        var middleSquare = { x: 1, y: 1 },
-            move;
-        if (mainBoard.isEmtpy()) {
-            return middleSquare;
-        }
-
-        move = getBestMove(mainBoard, Turn.user);
-        return move.position;
-    }
-
-    return {
-        getBestPosition : getBestPosition
+        return '';
     };
-}());
+}

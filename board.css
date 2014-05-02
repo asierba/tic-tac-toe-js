@@ -23,9 +23,9 @@ span {
   font-size: 60px;
 }
 
-div#player {
+div#settings {
     margin: 10px;
 }
-    div#player span {
+    div#settings span {
         font-size: 20px !important;
     }

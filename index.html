@@ -6,11 +6,12 @@
     <script type='text/javascript' src='lib/knockout-3.1.0.js'></script>    
     <script type="text/javascript" src="board.js"></script>
     <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="cpuLogic.js"></script>
     <script type='text/javascript' src='boardViewModel.js'></script>
     <script type='text/javascript' src='arrayHelper.js'></script>
   </head>
   <body>
-    <div id="player">
+    <div id="settings">
         <span>Starting</span>
         <div class="btn-group">
             <button type="button" class="btn btn-default" title="Pick user as starting player"
@@ -22,7 +23,7 @@
                 <span>CPU</span>
             </button>
         </div>
-        <button data-bind="click: refresh" type="button" class="btn btn-default btn-lg" title="Refresh board">
+        <button data-bind="click: restart" type="button" class="btn btn-default btn-lg" title="Restart board">
           <span class="glyphicon glyphicon-refresh"></span>
         </button>
     </div>
@@ -47,7 +48,11 @@
       <span data-bind="text: result"></span>
     </div>
   </body>
-   <script type='text/javascript'>
-    ko.applyBindings(new BoardViewModel(new Board()));
-   </script>
+  <script type='text/javascript'>
+      'use strict';
+      var board = new Board(),
+          game = new Game(board),
+          boardViewModel = new BoardViewModel(game);
+      ko.applyBindings(boardViewModel);
+  </script>
 </html>

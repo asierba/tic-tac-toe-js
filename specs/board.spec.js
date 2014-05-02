@@ -29,10 +29,6 @@ describe('when loading the board', function () {
         it('square should be marked with an X', function () {
             expect(board.squares[1][0]).toBe('X');
         });
-
-        it('game is not ended yet', function () {
-            expect(board.gameIsOver()).toBe(false);
-        });
     });
 
     describe('and cpu takes a square', function () {
@@ -46,10 +42,6 @@ describe('when loading the board', function () {
 
         it('square should be marked with an O', function () {
             expect(board.squares[2][2]).toBe('O');
-        });
-
-        it('game is not ended yet', function () {
-            expect(board.gameIsOver()).toBe(false);
         });
     });
 });
@@ -67,10 +59,6 @@ describe('when user makes three in a row', function () {
     it('user should win', function () {
         expect(board.userWins()).toBe(true);
     });
-
-    it('game should be over', function () {
-        expect(board.gameIsOver()).toBe(true);
-    });
 });
 
 describe('when cpu makes three in a row', function () {
@@ -86,10 +74,6 @@ describe('when cpu makes three in a row', function () {
     it('cpu should win', function () {
         expect(board.cpuWins()).toBe(true);
     });
-
-    it('game should be over', function () {
-        expect(board.gameIsOver()).toBe(true);
-    });
 });
 
 describe('when no more free spaces', function () {
@@ -104,10 +88,6 @@ describe('when no more free spaces', function () {
 
     it('board should be full', function () {
         expect(board.isFull()).toBe(true);
-    });
-
-    it('game should be over', function () {
-        expect(board.gameIsOver()).toBe(true);
     });
 
     describe('and user resets the board', function () {
