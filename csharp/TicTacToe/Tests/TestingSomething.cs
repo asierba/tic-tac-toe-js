@@ -7,7 +7,7 @@ namespace Tests
     public class TestingSomething
     {
         [Test]
-        public void GameIsNotOverWhenGameStarts()
+        public void GameIsNOTOverWhenGameStarts()
         {
             var fields = new[] { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
             Assert.That(false, Is.EqualTo(GameIsOver(fields)));
@@ -41,13 +41,18 @@ namespace Tests
         [TestCase(new[] { ' ', ' ', ' ', 
                           ' ', ' ', ' ', 
                           'X', 'X', 'X' })]
-        //[TestCase(new[] {'X', 'O', 'O', 
-        //                'X', ' ', 'O', 
-        //                'O', 'O', 'X'})] //TODO special case - needs revisit
-
         public void GameIsOverWhenAllFieldsInARowAreTakenByAPlayer(char[] fields)
         {
             Assert.That(true, Is.EqualTo(GameIsOver(fields)));
+        }
+
+        [TestCase(new[] {'X', 'O', 'O', 
+                        'X', ' ', 'O', 
+                        'O', 'O', 'X'})]
+
+        public void GameIsNOTOverWhenFollowingThreeFieldsAreTakenByAPlayerButNotInTheSameRow(char[] fields)
+        {
+            Assert.That(false, Is.EqualTo(GameIsOver(fields)));
         }
 
         [TestCase(new[] { 'X', ' ', ' ', 
@@ -70,7 +75,7 @@ namespace Tests
 
         private static bool PlayerTookARow(IReadOnlyList<char> fields)
         {
-            for (var i = 0; i < fields.Count() - 2; i++)
+            for (var i = 0; i < fields.Count(); i += 3)
             {
                 if (fields[i] != ' ' && fields[i] == fields[i + 1] && fields[i] == fields[i + 2])
                     return true;
