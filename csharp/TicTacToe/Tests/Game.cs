@@ -9,6 +9,7 @@ namespace Tests
         {
             return PlayerTookARow(fields) || 
                    PlayerTookAColumn(fields) || 
+                   PlayerTookADiagonal(fields) ||
                    AllTaken(fields);
         }
 
@@ -29,6 +30,16 @@ namespace Tests
                 if (fields[i] != ' ' && fields[i] == fields[i + 3] && fields[i] == fields[i + 6])
                     return true;
             }
+            return false;
+        }
+
+        private static bool PlayerTookADiagonal(IReadOnlyList<char> fields)
+        {
+            if (fields[4] != ' ' && fields[4] == fields[0] && fields[4] == fields[8])
+                return true;
+            if (fields[4] != ' ' && fields[4] == fields[2] && fields[4] == fields[6])
+                return true;
+
             return false;
         }
 

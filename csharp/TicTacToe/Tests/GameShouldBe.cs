@@ -8,7 +8,7 @@ namespace Tests
         public void NotOverWhenGameStarts()
         {
             var fields = new[] { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
-            Assert.That(false, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.False);
         }
 
         [Test]
@@ -17,14 +17,14 @@ namespace Tests
             var fields = new[] {'X', 'O', 'O', 
                                 'X', ' ', 'O', 
                                 'O', 'X', 'X'};
-            Assert.That(false, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.False);
         }
 
         [Test]
         public void OverWhenAllFieldsAreTaken()
         {
             var fields = new[] {'X', 'O', 'O', 'X', 'O', 'O', 'X', 'O', 'O'};
-            Assert.That(true, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.True);
         }
 
         [TestCase(new[] { 'X', 'X', 'X', 
@@ -41,7 +41,7 @@ namespace Tests
                           'X', 'X', 'X' })]
         public void OverWhenAllFieldsInARowAreTakenByAPlayer(char[] fields)
         {
-            Assert.That(true, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.True);
         }
 
         [TestCase(new[] {'X', 'O', 'O', 
@@ -50,7 +50,7 @@ namespace Tests
 
         public void NotOverWhenFollowingThreeFieldsAreTakenByAPlayerButNotInTheSameRow(char[] fields)
         {
-            Assert.That(false, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.False);
         }
 
         [TestCase(new[] { 'X', ' ', ' ', 
@@ -61,11 +61,20 @@ namespace Tests
                           ' ', ' ', 'X' })]
         public void OverWhenAllFieldsInAColumnAreTakenByAPlayer(char[] fields)
         {
-            Assert.That(true, Is.EqualTo(Game.IsOver(fields)));
+            Assert.That(Game.IsOver(fields), Is.True);
         }
 
-        // a game is over when all fields in a column are taken by a player
-        // a game is over when all fields in a diagonal are taken by a player
+        [TestCase(new[] { 'X', ' ', ' ', 
+                          ' ', 'X', ' ', 
+                          ' ', ' ', 'X' })]
+        [TestCase(new[] { ' ', ' ', 'O', 
+                          ' ', 'O', ' ', 
+                          'O', ' ', ' ' })]
+        public void OverWhenAllFieldsInADiagonalAreTakenByAPlayer(char[] fields)
+        {
+            Assert.That(Game.IsOver(fields), Is.True);
+        }
+
         // a player can take a field if not already taken
         // players take turns taking fields until the game is over
     }
