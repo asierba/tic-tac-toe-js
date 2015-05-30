@@ -7,70 +7,84 @@ namespace Tests
         [Test]
         public void NotOverWhenGameStarts()
         {
-            var fields = new[] { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
+            var fields = new[,] { {' ', ' ', ' '},
+                                  {' ', ' ', ' '}, 
+                                  {' ', ' ', ' '}};
             Assert.That(Game.IsOver(fields), Is.False);
         }
 
         [Test]
         public void NotOverWhenAllFieldsNotTaken()
         {
-            var fields = new[] {'X', 'O', 'O', 
-                                'X', ' ', 'O', 
-                                'O', 'X', 'X'};
+            var fields = new[,] {{'X', 'O', 'O'}, 
+                                 {'X', ' ', 'O'}, 
+                                 {'O', 'X', 'X'}};
             Assert.That(Game.IsOver(fields), Is.False);
         }
 
         [Test]
         public void OverWhenAllFieldsAreTaken()
         {
-            var fields = new[] {'X', 'O', 'O', 'X', 'O', 'O', 'X', 'O', 'O'};
+            var fields = new[,] {{'X', 'O', 'O'},
+                                 {'X', 'O', 'O'}, 
+                                 {'X', 'O', 'O'}};
             Assert.That(Game.IsOver(fields), Is.True);
         }
 
-        [TestCase(new[] { 'X', 'X', 'X', 
-                          ' ', ' ', ' ', 
-                          ' ', ' ', ' ' })]
-        [TestCase(new[] { 'O', 'O', 'O', 
-                          ' ', ' ', ' ', 
-                          ' ', ' ', ' ' })]
-        [TestCase(new[] { ' ', ' ', ' ', 
-                          'X', 'X', 'X', 
-                          ' ', ' ', ' ' })]
-        [TestCase(new[] { ' ', ' ', ' ', 
-                          ' ', ' ', ' ', 
-                          'X', 'X', 'X' })]
-        public void OverWhenAllFieldsInARowAreTakenByAPlayer(char[] fields)
+        readonly object[] _allInARowCases ={ 
+            new[,] { {'X', 'X', 'X'}, 
+                     {' ', ' ', ' '}, 
+                     {' ', ' ', ' '} },
+            new[,] { { 'O', 'O', 'O'},
+                     {' ', ' ', ' '}, 
+                     {' ', ' ', ' '} },
+            new[,] { { ' ', ' ', ' '}, 
+                     {'X', 'X', 'X'}, 
+                     {' ', ' ', ' ' }},
+            new[,] { { ' ', ' ', ' ', },
+                     {' ', ' ', ' '}, 
+                     {'X', 'X', 'X' }}
+        };
+        [TestCaseSource("_allInARowCases")]
+        
+        public void OverWhenAllFieldsInARowAreTakenByAPlayer(char[,] fields)
         {
             Assert.That(Game.IsOver(fields), Is.True);
         }
 
-        [TestCase(new[] {'X', 'O', 'O', 
-                        'X', ' ', 'O', 
-                        'O', 'O', 'X'})]
-
-        public void NotOverWhenFollowingThreeFieldsAreTakenByAPlayerButNotInTheSameRow(char[] fields)
+        [Test]
+        public void NotOverWhenFollowingThreeFieldsAreTakenByAPlayerButNotInTheSameRow()
         {
+            var fields = new[,] {{'X', 'O', 'O'}, 
+                                {'X', ' ', 'O'}, 
+                                {'O', 'O', 'X'}};
             Assert.That(Game.IsOver(fields), Is.False);
         }
 
-        [TestCase(new[] { 'X', ' ', ' ', 
-                          'X', ' ', ' ', 
-                          'X', ' ', ' ' })]
-        [TestCase(new[] { ' ', ' ', 'X', 
-                          ' ', ' ', 'X', 
-                          ' ', ' ', 'X' })]
-        public void OverWhenAllFieldsInAColumnAreTakenByAPlayer(char[] fields)
+        readonly object[] _allInAColumnCases ={ 
+            new[,] {{ 'X', ' ', ' '}, 
+                    {'X', ' ', ' '}, 
+                    {'X', ' ', ' ' }},
+            new[,] {{ ' ', ' ', 'X'}, 
+                    {' ', ' ', 'X'}, 
+                    {' ', ' ', 'X' }}
+        };
+        [TestCaseSource("_allInAColumnCases")]
+        public void OverWhenAllFieldsInAColumnAreTakenByAPlayer(char[,] fields)
         {
             Assert.That(Game.IsOver(fields), Is.True);
         }
 
-        [TestCase(new[] { 'X', ' ', ' ', 
-                          ' ', 'X', ' ', 
-                          ' ', ' ', 'X' })]
-        [TestCase(new[] { ' ', ' ', 'O', 
-                          ' ', 'O', ' ', 
-                          'O', ' ', ' ' })]
-        public void OverWhenAllFieldsInADiagonalAreTakenByAPlayer(char[] fields)
+        readonly object[] _allInDiagonalCases = {
+            new[,] {{ 'X', ' ', ' '}, 
+                    {' ', 'X', ' '}, 
+                    {' ', ' ', 'X' }},
+            new[,] {{ ' ', ' ', 'O'}, 
+                    {' ', 'O', ' '}, 
+                    {'O', ' ', ' ' }}
+        };
+        [TestCaseSource("_allInDiagonalCases")]
+        public void OverWhenAllFieldsInADiagonalAreTakenByAPlayer(char[,] fields)
         {
             Assert.That(Game.IsOver(fields), Is.True);
         }
